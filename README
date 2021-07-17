@@ -1,0 +1,26 @@
+REQUISITOS:
+
+- SQL SERVER
+Microsoft® ODBC Driver 11 for SQL Server
+https://www.microsoft.com/en-us/download/details.aspx?id=36434
+
+-Visual C++ Redistributable for Visual Studio 2015
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=48145
+
+Las extensiones están en la descripción del siguiente video:
+https://www.youtube.com/watch?v=4K8L1eZU6cs
+
+Laragon 4.0
+Apache 2.4, Nginx, MySQL 5.7, PHP 7.2, Redis, Memcached
+
+
+
+1. Extraer los drivers:
+	1.1 
+	
+	
+	
+2. Tenemos que habilitar el funcionamiento del htaccess sino saldrá error al conectarse.
+
+## ESTO ES LO QUE VA A HACER FUNCIONAR EL HTACCESS
+##https://www.linode.com/docs/guides/how-to-set-up-htaccess-on-apache/ 
