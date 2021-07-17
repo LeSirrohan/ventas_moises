@@ -19,7 +19,6 @@ class AjaxProductos {
     	$valor = null;
 
   		$productos = ControladorProductos::ctrMostrarProductos($item, $valor);
-		  print_r($productos);exit;
 
 
 		if(count($productos)== 0){
@@ -61,7 +60,7 @@ class AjaxProductos {
 		  	/*=============================================
  	 		STOCK
   			=============================================*/
-			if(is_numeric($productos[$i]["cantidad_alerta"]) ){
+			if(is_numeric($productos[$i]["stock"]) ){
 
 
 				$cantidad_stock_aux = 0;
@@ -69,13 +68,13 @@ class AjaxProductos {
 						else $cantidad_stock_aux=  $productos[$i]["stock"]   ;
 
 
-				if($productos[$i]["stock"] <= $productos[$i]["cantidad_alerta"] ){
+				if($productos[$i]["stock"] <= $productos[$i]["stock"] ){
 
 
 
 	  				$stock = "<button class='btn btn-danger'>".$cantidad_stock_aux."</button>";
 
-	  			}else if($productos[$i]["stock"] > $productos[$i]["cantidad_alerta"]  && $productos[$i]["stock"] <=    ($productos[$i]["cantidad_alerta"]*2)   ){
+	  			}else if($productos[$i]["stock"] > $productos[$i]["stock"]  && $productos[$i]["stock"] <=    ($productos[$i]["stock"]*2)   ){
 
 	  				$stock = "<button class='btn btn-warning'>". $cantidad_stock_aux  ."</button>";
 	  			}else{
@@ -85,7 +84,7 @@ class AjaxProductos {
 			}else
 				$stock = "<button class='btn btn-info'> VAR </button>";
 
-			if($productos[$i]["codigo_barras"] == "")
+			if($productos[$i]["id_prod"] == "")
 			{
 				$boton_imprimir = "";
 			}
@@ -102,7 +101,11 @@ class AjaxProductos {
 
 			if($crear_productos == 1)
 			{
-				$botones =  "<div class='btn-group'><button type='button' class='btn btn-warning btnEditarProducto' idProducto='".$productos[$i]["id_prod"]."' descripcionEditarProducto='".$productos[$i]["descripcion"]."' codigoEditarProducto='".$productos[$i]["codigo_barras"]."'  codigo_producto_sunat='".$productos[$i]["codigo_producto_sunat"]."' precVentaEditarProducto='".$productos[$i]["precio_venta"]."' categNombreEditarProducto='".$productos[$i]["categoriaNombre"]."' categIDEditarProducto='".$productos[$i]["idCategoria"]."' tipo_afectacion_sunat='".$productos[$i]["tipo_afectacion_sunat"]."' unidad_medida_sunat='".$productos[$i]["unidad_medida_sunat"]."'  imagenEditarProducto = '".str_replace('\\', '\\\\', $productos[$i]["imagen"])."'data-toggle='modal' data-target='#modalEditarProducto'><i class='fas fa-edit'></i></button>";
+				$botones .=  "<div class='btn-group'><button type='button' class='btn btn-warning btnEditarProducto' idProducto='".$productos[$i]["id_prod"]."' descripcionEditarProducto='".$productos[$i]["descripcion"]."' ";
+				$botones .=  "codigoEditarProducto='".$productos[$i]["id_prod"]."'";
+				$botones .=  "codigo_producto_sunat='".$productos[$i]["codproducto"]."' precVentaEditarProducto='".$productos[$i]["precio"]."' ";
+				$botones .=  "tipo_afectacion_sunat='".$productos[$i]["tipo_afectacion_sunat"]."' unidad_medida_sunat='".$productos[$i]["codunidad"]."' ";
+				$botones .=  "data-toggle='modal' data-target='#modalEditarProducto'><i class='fas fa-edit'></i></button>";
 			}
 
 			$botones .= "<button type='button' class='btn btn-info btnUnidadMedidaProducto'  idProducto='".$productos[$i]["id_prod"]."'data-toggle='modal' data-target='#modalEnlaceInventario'><i class='fas fa-cubes'></i></button>";
@@ -116,13 +119,10 @@ class AjaxProductos {
 			}
 		  	$datosJson .='[
 			      "'.($i+1).'",
-			      "'.$imagen.'",
-			      "'.$productos[$i]["codigo_barras"].'",
-			      "'.$productos[$i]["descripcion"].'",
-			      "'.$productos[$i]["categoriaNombre"].'",
+			      "'.$productos[$i]["nomproducto"].'",
 			      "'.$stock.'",
-			      "'.$productos[$i]["unidad_medida_sunat"].'",
-			      "'.$productos[$i]["moneda_simbolo"].' '.$productos[$i]["precio_venta"].'",
+			      "'.$productos[$i]["codunidad"].'",
+			      "'.$productos[$i]["codmoneda"].' '.$productos[$i]["precio"].'",
 			      "'.$productos[$i]["tipo_afectacion_sunat"].'",
 			      "'.$botones.'"
 			    ],';

@@ -54,10 +54,7 @@
             <thead>
               <tr>
                 <th style="width: 10px">#</th>
-                <th>Imagen</th>
-                <th>Código de Barras</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Stock</th>
                 <th>Unidad Sunat</th>
                 <th>Precio Venta</th>
@@ -68,10 +65,7 @@
             <tfoot>
                 <tr>
                 <th style="width: 10px">#</th>
-                <th>Imagen</th>
-                <th>Código de Barras</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Stock</th>
                 <th>Unidad Sunat</th>
                 <th>Precio Venta</th>
