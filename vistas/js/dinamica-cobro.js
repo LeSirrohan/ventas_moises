@@ -16,47 +16,43 @@ $(document).on("click",".agregarMetodoPago" , function(){
 
   $(".listaMetodoPago").append(
    '<div class="container mt-1 py-1 bg-default" style="border: 1px solid #c4c4c4; border-radius: 5px">'+
-              '<label for="" >Medio de pago</label>'+
-              '<div class = "form-group row">'+
-                '<div class  = "col-xs-12 col-sm-6">'+
-                  '<label for="">Importe</label>'+
-                  '<div class = "input-group mb-3">'+
-                    '<div class="input-group-prepend">'+
-                      '<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>'+
-                    '</div>'+
-                    '<input type="number" class="form-control input-lg nuevaVentaPagoMonto"  idPago="0"  step = "any"  min ="0" placeholder="Monto Pago">'+
-                '</div>'+
-
-                '</div>'+
-              
-              '<div class  = "col-xs-12 col-md-6">'+
-
-
-                '<label>Tipo</label>'+
- 
-
-          '<div class = "form-group">'+
-             '<select class ="form-control select2 nuevaVentaTipoPago" style="width: 100%;" required>'+
-              
-              '</select>'+
+      '<label for="" >Medio de pago</label>'+
+      '<div class = "form-group row">'+
+        '<div class  = "col-xs-12 col-sm-6">'+
+          '<label for="">Importe</label>'+
+          '<div class = "input-group mb-3">'+
+            '<div class="input-group-prepend">'+
+              '<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>'+
+            '</div>'+
+            '<input type="number" class="form-control input-lg nuevaVentaPagoMonto"  idPago="0"  step = "any"  min ="0" placeholder="Monto Pago">'+
           '</div>'+
-
-
-              '</div>'+
-              '</div>'+
-              '<div class = "form-group row" style="margin-top:-15px">'+
-                '<div class  = "col-lg-10">'+
-                  '<label for="">Nota de pago</label>'+
-                  '<input type="text" name="" value="" class="form-control nuevaVentaNotaPago">'+
-
-                '</div>'+
-             
-              '<div class  = "col-lg-2">'+
-                '<label for=""></label>'+
-                '<button type="button" class="btn btn-danger mt-4 ml-2 eliminarFormaDePago"><i class="far fa-trash-alt"></i></button>'+
-              '</div>'+
-              '</div>'+
-            '</div>'
+        '</div>'+      
+        '<div class  = "col-xs-12 col-md-6">'+
+          '<label>Tipo Pago</label>'+
+          '<div class = "form-group">'+
+            '<select class ="form-control select2 nuevaVentaTipoPago" style="width: 100%;" required>'+
+            '</select>'+
+          '</div>'+
+        '</div>'+  
+        '<div class  = "col-xs-12 col-md-6">'+
+          '<label>Forma Pago</label>'+
+          '<div class = "form-group">'+
+            '<select class ="form-control select2 nuevaVentaFormaPago" style="width: 100%;" required>'+
+            '</select>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class = "form-group row" style="margin-top:-15px">'+
+        '<div class  = "col-lg-10">'+
+          '<label for="">Nota de pago</label>'+
+          '<input type="text" name="" value="" class="form-control nuevaVentaNotaPago">'+
+        '</div>'+      
+        '<div class  = "col-lg-2">'+
+          '<label for=""></label>'+
+          '<button type="button" class="btn btn-danger mt-4 ml-2 eliminarFormaDePago"><i class="far fa-trash-alt"></i></button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'
 
 
     ); 
@@ -206,40 +202,19 @@ let identificador = "";
 let nombre = "";     
 let email  = "";     
 let direccion = ""; 
+let formaPago = ""; 
+let tipoPago = ""; 
+let codcliente = ""; 
 let tipoComprobante = "No Info";
  
-
- if ( $('#collapseTicket').hasClass('show') ) {
-
-
- identificador = $("#crearVentaClienteIdentificadorTicket").val();     
- nombre = $("#crearVentaClienteNombreTicket").val();     
- email  ="";     
- tipoComprobante = "Ticket";
-
-
- } 
-
-   if ( $('#collapseBoleta').hasClass('show') ) {
-
- identificador = $("#crearVentaClienteIdentificadorBoleta").val();     
- nombre = $("#crearVentaClienteNombreBoleta").val();     
- email  = $("#crearVentaClienteEmailBoleta").val();     
- tipoComprobante = "Boleta";
-
- } 
-
-   if ( $('#collapseFactura').hasClass('show') ) {
-
- identificador = $("#crearVentaClienteIdentificadorFactura").val();     
- nombre = $("#crearVentaClienteNombreFactura").val();     
- email  = $("#crearVentaClienteEmailFactura").val();     
- direccion = $("#crearVentaClienteDireccionFactura").val(); 
- tipoComprobante = "Factura";
-
-
- }  
-
+codcliente = $("#crearVentaCodCliente").val();     
+identificador = $("#crearVentaClienteIdentificadorFactura").val();     
+nombre = $("#crearVentaClienteNombreFactura").val();     
+email  = $("#crearVentaClienteEmailFactura").val();     
+direccion = $("#crearVentaClienteDireccionFactura").val(); 
+tipoComprobante = $("#nuevaVentaTipoCpeOriginal").val();
+formaPago = $("#nuevaVentaFormaPagoOriginal").val();
+tipoPago = $("#nuevaVentaTipoPagoOriginal").val();
 
 
          comprobante.push({  
@@ -251,12 +226,19 @@ let tipoComprobante = "No Info";
                             
                             "direccion" : direccion , 
       
-                            "tipo_comprobante" : tipoComprobante 
+                            "tipo_comprobante" : tipoComprobante  , 
+      
+                            "forma_pago" : formaPago , 
+      
+                            "codcliente" : codcliente , 
+      
+                            "tipo_pago" : tipoPago 
 
  
                           });
 
  
+console.log(comprobante);
 
 //LISTAMOS LOS METODOS DE PAGO
 $('[name=nuevaVentaComprobante]').val( JSON.stringify(comprobante)     );
@@ -427,7 +409,7 @@ function listarClientes ()
       select.html('');
       resp.forEach(function (item, index, array) {
         //console.log(item[0]);
-        option += '<option value="' +item.id_documento + '|' +item.nombre + '|' +item.direccion+ '">' + item.id_documento+"-"+ item.nombre_comercial + '</option>';
+        option += '<option value="' +item.id_documento + '|' +item.nombre + '|' +item.direccion+ '|' +item.codcliente+ '">' + item.id_documento+"-"+ item.nombre_comercial + '</option>';
         
       });          
       select.append(option);
@@ -463,46 +445,21 @@ function listarClientes ()
     }
   });
 }
-$(document).on("change","#nuevaVentaSeleccionarCliente1" , function(){ // cuando este lista la clase formulario venta agregamos lo que sigue.
-  var cliente1 = $(this).val();
-  var cliente = [];
-  cliente = cliente1.split("|");
-
-  $("#crearVentaClienteIdentificadorTicket").val("");
-  $("#crearVentaClienteNombreTicket").val("");
-
-  $("#crearVentaClienteIdentificadorTicket").val(cliente[0]);
-  $("#crearVentaClienteNombreTicket").val(cliente[1]);
-  
-
-});
-$(document).on("change","#nuevaVentaSeleccionarCliente2" , function(){ // cuando este lista la clase formulario venta agregamos lo que sigue.
-  var cliente1 = $(this).val();
-  var cliente = [];
-  cliente = cliente1.split("|");
-
-  $("#crearVentaClienteIdentificadorBoleta").val("");
-  $("#crearVentaClienteNombreBoleta").val("");
-  $("#crearVentaClienteEmailBoleta").val("");
-
-  $("#crearVentaClienteIdentificadorBoleta").val(cliente[0]);
-  $("#crearVentaClienteNombreBoleta").val(cliente[1]);
-  
-
-});
 $(document).on("change","#nuevaVentaSeleccionarCliente3" , function(){ // cuando este lista la clase formulario venta agregamos lo que sigue.
   var cliente1 = $(this).val();
   var cliente = [];
   cliente = cliente1.split("|");
-
+  console.log(cliente);
   $("#crearVentaClienteIdentificadorFactura").val("");
   $("#crearVentaClienteNombreFactura").val("");
   $("#crearVentaClienteDireccionFactura").val("");
   $("#crearVentaClienteEmailFactura").val("");
+  $("#crearVentaCodCliente").val("");
 
   $("#crearVentaClienteIdentificadorFactura").val(cliente[0]);
   $("#crearVentaClienteNombreFactura").val(cliente[1]);
   $("#crearVentaClienteDireccionFactura").val(cliente[2]);
+  $("#crearVentaCodCliente").val(cliente[3]);
 
 });
 

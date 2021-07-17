@@ -693,7 +693,7 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 			
 			$conn->beginTransaction();
 
-			$guardar_cliente = true;
+			$guardar_cliente = false;
 
 			if(  $comprobante[0]['tipo_comprobante'] =='No Info'  ) // Si esta seleccionado NO INFO, NO GUARDAS EL CLIENTE.
 				$guardar_cliente = false;
@@ -745,82 +745,81 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 				$stmt->execute();
 
 			}
+			$stmt = $conn->prepare("SELECT (MAX(codventa+1)*1) as max FROM ventas ;");
+			$stmt->execute();
+			$id_ventas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			//print_r($id_ventas);exit;
 
 
 
-			$stmt = $conn->prepare("INSERT INTO ventas(codcliente, total , fecregistro , valventa, igv , codserie, codmoneda , codtipocpe , codformapago , codtipopago , comentario ) VALUES (:id_documento_cliente, :id_vendedor, :total , :fecha_venta , :total_productos , :id_local, :nombre_vendedor , :descuento , :descuento_motivo , :id_sesion_caja , :total_vuelto, :anulado, :comentario_venta )");
+			$stmt = $conn->prepare("INSERT INTO 
+			ventas (codventa,codcliente, total , fecregistro, fecemision , valventa, igv , codserie, codmoneda , codtipocpe , codformapago , codtipopago , comentario, nrocorrelativo, tienedetraccion ) 
+			VALUES (:codventa, :id_documento_cliente, :total , :fecha_venta, :fecemision , :total_productos, :igv , :codserie, :codmoneda , :codtipocpe , :codformapago , :codtipopago ,  :comentario_venta, '','0' );");
+			if($comprobante[0]['tipo_comprobante'] == "01")
+				$codserie = "F001";
+			elseif ($comprobante[0]['tipo_comprobante'] == "03") {
+				$codserie = "B001";
+			}
+			elseif ($comprobante[0]['tipo_comprobante'] == "07") {
+				$codserie = "NC01";
+			}
+			elseif ($comprobante[0]['tipo_comprobante'] == "08") {
+				$codserie = "ND01";
+			}
+			$codmoneda = "PEN";
+			$stmt->bindParam(":codventa", $id_ventas[0]['max'], PDO::PARAM_STR);	
 
-
-			if( $guardar_cliente )
-				$stmt->bindParam(':id_documento_cliente',  $comprobante[0]['identificador'], PDO::PARAM_STR); // clientes
-
-			else 
-				$stmt->bindValue(':id_documento_cliente', null, PDO::PARAM_INT); // clientes en nulos aun no los creamos
-
+			$stmt->bindParam(':id_documento_cliente',  $comprobante[0]['codcliente'], PDO::PARAM_STR);
+				
 			$id_local = 1;
 			$stmt->bindParam(":total", $total, PDO::PARAM_STR);	
 			$stmt->bindParam(":fecha_venta", $fecha_venta, PDO::PARAM_STR);	
+			$stmt->bindParam(":fecemision", $fecha_venta, PDO::PARAM_STR);	
 			$stmt->bindParam(":total_productos", $total_productos, PDO::PARAM_STR);	
+			$stmt->bindParam(":igv", $total_igv, PDO::PARAM_STR);	
 
-			$stmt->bindParam(":id_local", $id_local, PDO::PARAM_INT);
+			$stmt->bindParam(":codserie", $codserie, PDO::PARAM_STR);
+			$stmt->bindParam(":codmoneda", $codmoneda, PDO::PARAM_STR);
+			$stmt->bindParam(":codtipocpe", $comprobante[0]['tipo_comprobante'], PDO::PARAM_STR);
 			
-			$stmt->bindParam(":nombre_vendedor", $nombre_vendedor, PDO::PARAM_STR);	
-			$stmt->bindParam(":descuento", $descuento, PDO::PARAM_STR);	
+			$stmt->bindParam(":codformapago", $comprobante[0]['forma_pago'], PDO::PARAM_STR);
+			$stmt->bindParam(":codtipopago", $comprobante[0]['tipo_pago'], PDO::PARAM_STR);
 
-			$descuentoMotivo=$sanear_string->sanear_strings_especiales( $descuentoMotivo );
-			$stmt->bindParam(":descuento_motivo", $descuentoMotivo , PDO::PARAM_STR);	
+			//$descuentoMotivo=$sanear_string->sanear_strings_especiales( $descuentoMotivo );
+			//$stmt->bindParam(":descuento_motivo", $descuentoMotivo , PDO::PARAM_STR);	
 
-			$stmt->bindParam(":id_sesion_caja", $id_sesion_caja, PDO::PARAM_INT);	
-			$stmt->bindParam(":total_vuelto", $vuelto, PDO::PARAM_STR);	
+			//$stmt->bindParam(":id_sesion_caja", $id_sesion_caja, PDO::PARAM_INT);	
+			//$stmt->bindParam(":total_vuelto", $vuelto, PDO::PARAM_STR);	
 			$anulado = 0;
-			$stmt->bindParam(":anulado", $anulado, PDO::PARAM_INT);
+			//$stmt->bindParam(":anulado", $anulado, PDO::PARAM_INT);
 
 			$comentario_venta=$sanear_string->sanear_strings_especiales( $comentario_venta );
 			$stmt->bindParam(":comentario_venta", $comentario_venta , PDO::PARAM_STR);	
 
 			$stmt->execute();
-			$id_ventas_generado = $conn->lastInsertId();
-
+			$id_ventas_generado = $id_ventas[0]['max'];
 			foreach ($listaProductos as $key => $producto) 
 			{
-				$stmt = $conn->prepare("INSERT INTO ventas_detalle(id_ventas,precio_venta_original, comentario_modificacion_precio , comentario_producto , id_producto , nombre_producto , precio_venta_producto  , descuento_producto , comentario_descuento , cantidad_producto , comprobante_unidad_medida , comprobante_codigo_interno_producto , comprobante_valor_unitario , comprobante_sub_total_neto , comprobante_tipo_igv , comprobante_igv , comprobante_sub_total , comprobante_impuesto_bolsas, estado) VALUES 
-					(:id_ventas,:precio_venta_original, :comentario_modificacion_precio, :comentario_producto , :id_producto , :nombre_producto , :precio_venta_producto  , :descuento_producto , :comentario_descuento , :cantidad_producto , :comprobante_unidad_medida , :comprobante_codigo_interno_producto , :comprobante_valor_unitario ,:comprobante_sub_total_neto , :comprobante_tipo_igv , :comprobante_igv , :comprobante_sub_total , :comprobante_impuesto_bolsas, '1')");
+				$stmt = $conn->prepare("INSERT INTO detalle(codventa,codalmacen, codproducto , codmoneda , cantidad , valorunitario , igv  , valorventa , codtipoafectacion) VALUES 
+					(:id_ventas,'1', :codproducto, :codmoneda , :cantidad_producto , :valorunitario , :igv  , :valorventa , :codtipoafectacion);");
 
 				$stmt->bindParam(":id_ventas", $id_ventas_generado, PDO::PARAM_INT);
-				$stmt->bindParam(":id_producto", $producto['id'] , PDO::PARAM_INT);
-				$stmt->bindParam(":nombre_producto", $producto['descripcion'], PDO::PARAM_STR);
-
-				
-				$stmt->bindParam(":precio_venta_original", $producto['precio_original'], PDO::PARAM_STR);
-				$comentario_modificacion_precio = $sanear_string->sanear_strings_especiales( $producto['modificacion_precio_motivo'] );
-				$stmt->bindParam(":comentario_modificacion_precio", $comentario_modificacion_precio , PDO::PARAM_STR);
-				$comentario_producto = $sanear_string->sanear_strings_especiales( $producto['comentario_producto'] );
-				$stmt->bindParam(":comentario_producto", $comentario_producto, PDO::PARAM_STR);
-				
-
-				$stmt->bindParam(":precio_venta_producto", $producto['precio'], PDO::PARAM_STR);
-				$stmt->bindParam(":descuento_producto", $producto['descuento'], PDO::PARAM_STR);
-				$descuento_motivo = $sanear_string->sanear_strings_especiales( $producto['descuento_motivo'] );
-				$stmt->bindParam(":comentario_descuento", $descuento_motivo , PDO::PARAM_STR );
+				$stmt->bindParam(":codproducto", $producto['id'] , PDO::PARAM_INT);
+				$stmt->bindParam(":codmoneda",$codmoneda, PDO::PARAM_STR);
 				$stmt->bindParam(":cantidad_producto", $producto['cantidad'], PDO::PARAM_STR);
+				$stmt->bindParam(":valorunitario", $producto['precio_original'], PDO::PARAM_STR);
+				$stmt->bindParam(":igv", $producto['igv'], PDO::PARAM_STR);
 
-
-				$stmt->bindParam(":comprobante_unidad_medida", $producto['unidad_de_medida'], PDO::PARAM_STR);
-				$stmt->bindParam(":comprobante_codigo_interno_producto", $producto['codigo_producto_interno'], PDO::PARAM_STR);
-				$stmt->bindParam(":comprobante_valor_unitario", $producto['valor_unitario'], PDO::PARAM_STR);
-				$stmt->bindParam(":comprobante_sub_total_neto", $producto['sub_total_facturacion'], PDO::PARAM_STR);
-				$stmt->bindParam(":comprobante_tipo_igv", $producto['tipo_de_igv'], PDO::PARAM_INT);
-				$stmt->bindParam(":comprobante_igv", $producto['igv'], PDO::PARAM_STR);
-
-				$stmt->bindParam(":comprobante_sub_total", $producto['subTotal'], PDO::PARAM_STR);
-				$stmt->bindParam(":comprobante_impuesto_bolsas", $producto['impuesto_bolsas'], PDO::PARAM_STR);
+				$stmt->bindParam(":valorventa", $producto['subTotal'], PDO::PARAM_STR);
+				
+				$stmt->bindParam(":codtipoafectacion", $producto['codtipoafectacion'], PDO::PARAM_STR);
 
 
 				$stmt->execute();
-				$id_detalle_ventas_detalle = $conn->lastInsertId(); 
+				//$id_detalle_ventas_detalle = $conn->lastInsertId(); 
 
 
-
+/*
 
 						
 				$arr_aux = explode("-", $producto['unidad_de_medida'], 2);
@@ -873,7 +872,7 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 
 				$total_impuesto_bolsas  = $total_impuesto_bolsas +   $producto['impuesto_bolsas']     ;
 
-				array_push($items_facturacion, $item );
+				array_push($items_facturacion, $item );*/
 
 
 			}
@@ -882,7 +881,7 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 
 			$medio_pago = "";
 
-			foreach ($listaCobros as $key => $cobro) 
+			/*foreach ($listaCobros as $key => $cobro) 
 			{
 
 				$stmt = $conn->prepare("INSERT INTO ventas_x_tipo_cobro( id_ventas, id_tipo_cobro , monto_cobro , nombre_cobro , fecha , nota ,  monto_vuelto , id_sesion_caja ) VALUES (:id_ventas, :id_tipo_cobro , :monto_cobro , :nombre_cobro , :fecha , :nota  ,:monto_vuelto , :id_sesion_caja )  ");
@@ -912,7 +911,7 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 				$medio_pago =  $medio_pago. "|".$cobro['tipoCobros_nombre']." Monto Recibido:". number_format($cobro['montoCobro'], 2)." Vuelto:".number_format($aux_vuelto, 2) ;
 			}
 
-
+			*/
 
 
 
@@ -920,7 +919,7 @@ $stmt = Conexion::conectar()->prepare("SELECT  cast(fecha_venta as date) as fech
 
 			$conn->commit();
 
-				$retorno = array("respuesta"=>"ok", "venta"=>$id_ventas_generado, "comprobante"=>$id_comprobante_generado, "correo"=>$correo);
+				$retorno = array("respuesta"=>"ok", "venta"=>$id_ventas_generado, "comprobante"=>"", "correo"=>"");
 				//echo'<script>console.log("AQUI:'.$lastID.'");</script>';
 				return $retorno;
 

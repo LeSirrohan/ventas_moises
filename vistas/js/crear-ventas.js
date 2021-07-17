@@ -131,11 +131,12 @@ console.log('solo1');
   let codigo_producto_sunat = $(table.rows( { filter : 'applied'} ).data()[0][6]).attr("codigo_producto_sunat") ;
   let unidad_medida_sunat = $(table.rows( { filter : 'applied'} ).data()[0][6]).attr("unidad_medida_sunat") ;
   let tipo_afectacion_sunat = $(table.rows( { filter : 'applied'} ).data()[0][6]).attr("tipo_afectacion_sunat") ;
+  let codtipoafectacion = $(table.rows( { filter : 'applied'} ).data()[0][6]).attr("codtipoafectacion") ;
     console.log(codigo_producto_sunat);
   let codigo_barra =  table.search() ;
 
 
-
+  
 
  //CODIGO PARA EVITAR EL DOBLE INGRESO DE UN MISMO PRODUCTO
  let repetido = false;
@@ -170,7 +171,7 @@ if(repetido && table.search().substring(0,2)   != '23')
                       '<tr>'+
 
                         '<td>'+
-                          '<button type="button" class="btn btn-default nuevaVentaDescripcionProducto" idProducto="'+idProducto+'" codigoBarra="'+codigo_barra+'"  codigo_producto_sunat="'+codigo_producto_sunat+'"  unidad_medida_sunat="'+unidad_medida_sunat+'" descripcion="'+descripcion+'"  descuento=0 descuento_motivo="no hay motivo descuento" tipo_afectacion_sunat="'+tipo_afectacion_sunat+'" data-toggle = "modal" data-target =".modalVariarProducto" style="width:100%; text-align: left">'+descripcion+'</button>'+
+                          '<button type="button" class="btn btn-default nuevaVentaDescripcionProducto" idProducto="'+idProducto+'" codigoBarra="'+codigo_barra+'" codtipoafectacion="'+codtipoafectacion+'"  codigo_producto_sunat="'+codigo_producto_sunat+'"  unidad_medida_sunat="'+unidad_medida_sunat+'" descripcion="'+descripcion+'"  descuento=0 descuento_motivo="no hay motivo descuento" tipo_afectacion_sunat="'+tipo_afectacion_sunat+'" data-toggle = "modal" data-target =".modalVariarProducto" style="width:100%; text-align: left">'+descripcion+'</button>'+
                         '</td>'+
                         
                         '<td><div class="mt-2 nuevoPrecioProducto" precioOriginal="'+precio_venta+'" modificacion_precio_motivo="no hay motivo modificacion precio" comentario_producto="">'+precio_venta+'</div></td>'+
@@ -283,6 +284,7 @@ $(document).on("click",".nuevaVentaAgregarProducto" , function(){
   var codigo_producto_sunat = $(this).attr("codigo_producto_sunat") == '' ? $(this).attr("codigo_producto_sunat") : '' ;
   var unidad_medida_sunat = $(this).attr("unidad_medida_sunat") ;
   var tipo_afectacion_sunat = $(this).attr("tipo_afectacion_sunat");
+  let codtipoafectacion = $(this).attr("codtipoafectacion") ;
 
  
  //console.log('asi debe quedar',$(this));
@@ -296,7 +298,7 @@ $(document).on("click",".nuevaVentaAgregarProducto" , function(){
                       '<tr>'+
 
                         '<td>'+
-                          '<button type="button" class="btn btn-default nuevaVentaDescripcionProducto" idProducto='+idProducto+'  codigo_producto_sunat="'+codigo_producto_sunat+'"  unidad_medida_sunat="'+unidad_medida_sunat+'"   tipo_afectacion_sunat="'+tipo_afectacion_sunat+'" descripcion="'+descripcion+'" descuento=0 descuento_motivo="no hay motivo de descuento" data-toggle = "modal" data-target =".modalVariarProducto" style="width:100%; text-align: left">'+descripcion+'</button>'+
+                          '<button type="button" class="btn btn-default nuevaVentaDescripcionProducto" codtipoafectacion="'+codtipoafectacion+'"  idProducto='+idProducto+'  codigo_producto_sunat="'+codigo_producto_sunat+'"  unidad_medida_sunat="'+unidad_medida_sunat+'"   tipo_afectacion_sunat="'+tipo_afectacion_sunat+'" descripcion="'+descripcion+'" descuento=0 descuento_motivo="no hay motivo de descuento" data-toggle = "modal" data-target =".modalVariarProducto" style="width:100%; text-align: left">'+descripcion+'</button>'+
                         '</td>'+
                         
                         '<td><div class="mt-2 nuevoPrecioProducto" precioOriginal="'+precio_venta+'" modificacion_precio_motivo="no hay motivo modificacion precio" comentario_producto="">'+precio_venta+'</div></td>'+
@@ -474,6 +476,7 @@ function listarProductos(){
       "codigo_producto_sunat" : codigo_producto_sunat,
       "unidad_de_medida" :     unidad_medida_sunat,
       "tipo_afectacion_sunat" : $(descripcion[i]).attr("tipo_afectacion_sunat"),
+      "codtipoafectacion" : $(descripcion[i]).attr("codtipoafectacion"),
       "descuento" : $(descripcion[i]).attr("descuento"),
       "descuento_motivo" : $(descripcion[i]).attr("descuento_motivo"),
                   "descripcion" :  $(descripcion[i]).attr("descripcion"),
@@ -490,6 +493,7 @@ function listarProductos(){
                   "impuesto_bolsas" : impuesto_bolsas.toString() 
               }
     );
+    console.log(listaProductos);
 
 
 

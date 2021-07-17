@@ -228,6 +228,7 @@ if ( total_igv_aux == 0 &&  ($('#collapseFactura').hasClass('show')  ||  $('#col
 
 
 
+
     let id_vendedor_par = "<?php echo $_SESSION["id"]   ?>" ;
     let nombre_vendedor_par = "<?php echo $_SESSION['nombre']   ?>" ;
     let id_local_par = 1;

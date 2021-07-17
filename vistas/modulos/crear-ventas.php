@@ -114,6 +114,7 @@ if( $flag == 0){
                         <input type="hidden" class="nuevaVentaCliente" name ="nuevaVentaComprobante" placeholder="Informacion Comprobante">
                         <input type="hidden" class="nuevaVentaCliente" name ="nuevaVentaInfoCliente" placeholder="Lista Cliente">
                         <input type="hidden" class="" name ="nuevaVentaVuelto" placeholder="Informacion Vuelto">
+                        <input type="hidden" class="" id ="crearVentaCodCliente" name ="crearVentaCodCliente" placeholder="Codigo Cliente">
                     </div>
                     
                   </div>
@@ -194,31 +195,6 @@ if( $flag == 0){
                               </select>
                             </div>
                           </div>
-                          <!-- Entrada DE FECHA-->
-                          <div class  = "col-xs-12 col-md-6">
-                            <label>Tipo Afectacion</label>
-                            <div class = "form-group" id="copiarEsto">
-                              <select name="" class ="form-control select2 nuevaVentaTipoAfectacion" id="nuevaVentaTipoAfectacionOriginal" style="width: 100%;">
-
-                                <?php
-
-                                  $tipo_cobro = ControladorTipoAfectacion::ctrMostrarTipoAfectacion();
-                                  //print_r($tipo_cobro);
-                                  foreach ($tipo_cobro as $key => $value) {
-
-                                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
-
-                                    if($key == 0 )
-                                      echo '<option selected="selected" value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
-                                      else
-                                    echo '<option value="'.$value['codtipoafectacion'].'">'. strtoupper ($value['nomtipoafectacion']).'</option>';
-                                  }
-
-                                ?>
-                              </select>
-                            </div>
-                          </div>
-                          <!-- -->
                           <!-- -->
                           <div class  = "col-xs-12 col-sm-6 col-md-12">
                             <label for="">Importe</label>
@@ -1491,7 +1467,7 @@ $(document).on("click",".buscarApiClienteFactura", function (){
 
           $('#crearVentaClienteIdentificadorFactura').val(idBusqueda);    
           $('#crearVentaClienteNombreFactura').val(nombre);
-
+          
           $('#crearVentaClienteDireccionFactura').val(crearVentaNuevoClienteDireccion);    
           $('#crearVentaClienteEmailFactura').val(nuevoEmail);
       

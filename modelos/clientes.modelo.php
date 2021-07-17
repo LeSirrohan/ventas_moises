@@ -124,6 +124,7 @@ class ModeloClientes{
 	static public function mdlReporteClientes(){
 
 		$stmt = Conexion::conectar()->prepare("SELECT 
+		codcliente,
 		COALESCE(cliente.nomrznsocial, '-') nombre,
 		COALESCE(cliente.nomrznsocial, '-') nombre_comercial, 
 		 docidentidad id_documento, direccion FROM cliente ;");
