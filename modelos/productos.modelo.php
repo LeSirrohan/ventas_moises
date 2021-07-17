@@ -28,9 +28,10 @@ if ($item != null){
 
 } else {
 
- 		$stmt = Conexion::conectar()->prepare("SELECT p.*, ap.valorunitario as stock
+ 		$stmt = Conexion::conectar()->prepare("SELECT p.*, ap.valorunitario as stock, ta.nomtipoafectacion as tipo_afectacion_sunat
 		 FROM productos p 
-		 INNER JOIN almacenproducto ap ON p.codproducto = ap.codproducto; ");
+		 INNER JOIN almacenproducto ap ON p.codproducto = ap.codproducto
+		 INNER JOIN tipoafectacion ta ON p.codtipoafectacion = ta.codtipoafectacion;");
 			/* $stmt = Conexion::conectar()->prepare("SELECT
 			 producto.*,
 			 '-' AS categoriaNombre,

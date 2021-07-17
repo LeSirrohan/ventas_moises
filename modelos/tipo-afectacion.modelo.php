@@ -4,9 +4,9 @@ require_once "conexion.php";
 /**
   * 
   */
- class ModeloTipoCobro
+ class ModeloTipoAfectacion
  {
-	 public $idTipoCobro;
+	 public $idTipoAfectacion;
 	 public $nombre;
 	 public $fecha;
 	 public $simbolo;
@@ -15,30 +15,22 @@ require_once "conexion.php";
 	 public $estado;
 	 public $id_local;
 
-/*=============================================
-	Mostrar Otros Ingresos Egresos
-=============================================*/
- static public function mdlMostrarTipoCobro($tabla){
+	/*=============================================
+		Mostrar Otros Ingresos Egresos
+	=============================================*/
+	static public function mdlMostrarTipoAfectacion($tabla){
 
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla" );
 
- 
+		$stmt -> execute();
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM tipopago" );
-
-			$stmt -> execute();
-
-			return $stmt -> fetchAll();
-
- 
-		$stmt-> close();
-
-		$stmt = null;
+		return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
 	}
 	/*=============================================
 		Mostrar Otros Ingresos Egresos
 	=============================================*/
-	 static public function mdlListaTipoCobro($tabla){	 
+	 static public function mdlListaTipoAfectacion($tabla){	 
 	
 		$stmt = Conexion::conectar()->prepare("SELECT * FROM tipopago WHERE estado = 1 AND efectivo <> 2 ORDER BY orden" );
 
@@ -58,7 +50,7 @@ require_once "conexion.php";
 	|	MOSTRAR REGISTROS TIPO COBRO				|
 	=================================================
 	*/
-	 static public function mdlMostrarTipoCobroTabla($tabla){
+	 static public function mdlMostrarTipoAfectacionTabla($tabla){
 		 $sql= "SELECT
 					$tabla.id,
 					$tabla.nombre,
@@ -89,7 +81,7 @@ require_once "conexion.php";
 	|	AGREGAR TIPO COBRO							|
 	=================================================
 	*/
-	 static public function mdlAgregarTipoCobro($tabla,$tipopago){
+	 static public function mdlAgregarTipoAfectacion($tabla,$tipopago){
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (nombre,fecha,simbolo,efectivo,orden,estado,id_local) values (:nombre,NOW(),:simbolo,:efectivo,:orden,'1',:id_local);");
  
 		$stmt->bindParam(":nombre", $tipopago->nombre, PDO::PARAM_STR);
@@ -113,15 +105,15 @@ require_once "conexion.php";
 	|				EDITAR TIPO COBRO				|
 	=================================================
 	*/
-	 static public function mdlEditarTipoCobro($tabla,$tipopago){		
+	 static public function mdlEditarTipoAfectacion($tabla,$tipopago){		
 		
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre=:nombre,simbolo=:simbolo,efectivo=:efectivo,orden=:orden WHERE id = :idTipoCobro;");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre=:nombre,simbolo=:simbolo,efectivo=:efectivo,orden=:orden WHERE id = :idTipoAfectacion;");
 		
 		$stmt->bindParam(":nombre", $tipopago->nombre, PDO::PARAM_STR);
 		$stmt->bindParam(":simbolo", $tipopago->simbolo, PDO::PARAM_STR);
 		$stmt->bindParam(":efectivo", $tipopago->tipo_pago, PDO::PARAM_STR);
 		$stmt->bindParam(":orden", $tipopago->orden, PDO::PARAM_STR);
-		$stmt->bindParam(":idTipoCobro", $tipopago->idTipoCobro, PDO::PARAM_INT);
+		$stmt->bindParam(":idTipoAfectacion", $tipopago->idTipoAfectacion, PDO::PARAM_INT);
  		if( $stmt -> execute()) 
  			return "ok";
  		else 
@@ -155,10 +147,10 @@ require_once "conexion.php";
 	|				ELIMINAR TIPO COBRO				|
 	=================================================
 	*/
-	 static public function mdlEliminarTipoCobro($tabla,$tipopago){	
+	 static public function mdlEliminarTipoAfectacion($tabla,$tipopago){	
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado=0 WHERE id = :id");
 		
-		$stmt -> bindParam(":id" , $tipopago->idTipoCobro, PDO::PARAM_INT);
+		$stmt -> bindParam(":id" , $tipopago->idTipoAfectacion, PDO::PARAM_INT);
 		
 		if( $stmt -> execute()) 
 			return "ok";
@@ -174,10 +166,10 @@ require_once "conexion.php";
 	|				EDITAR TIPO COBRO				|
 	=================================================
 	*/
-	 static public function mdlEditarVentaTipoCobro($tabla,$idTipoCobro){	
+	 static public function mdlEditarVentaTipoAfectacion($tabla,$idTipoAfectacion){	
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado=2 WHERE id = :id");
 		
-		$stmt -> bindParam(":id" , $idTipoCobro, PDO::PARAM_INT);
+		$stmt -> bindParam(":id" , $idTipoAfectacion, PDO::PARAM_INT);
 		
 		if( $stmt -> execute()) 
 			return "ok";
@@ -220,7 +212,7 @@ require_once "conexion.php";
 	|	VALIDAR EFECTIVO							|
 	=================================================
 	*/
-	static public function mdlTipoCobroById($tipopago){
+	static public function mdlTipoAfectacionById($tipopago){
 		$sql= "SELECT
 				   efectivo,
 				   nombre,
@@ -232,7 +224,7 @@ require_once "conexion.php";
 			   WHERE  id = :id";
 
 	   $stmt = Conexion::conectar()->prepare( $sql );
-	   $stmt -> bindParam(":id" , $tipopago->idTipoCobro, PDO::PARAM_STR);
+	   $stmt -> bindParam(":id" , $tipopago->idTipoAfectacion, PDO::PARAM_STR);
 
 	   $stmt -> execute();
 
@@ -248,7 +240,7 @@ require_once "conexion.php";
 /*=============================================
 	Mostrar Otros Ingresos Egresos
 =============================================*/
- static public function mdlMostrarTipoCobroEfectivo(){
+ static public function mdlMostrarTipoAfectacionEfectivo(){
 
 
  			$stmt = Conexion::conectar()->prepare("SELECT * FROM tipopago WHERE estado = 1 AND efectivo = 1 ORDER BY orden" );

@@ -104,7 +104,7 @@ class AjaxCrearVentas {
  	 		TRAEMOS LAS ACCIONES
   			=============================================*/ 
 
-		  	$botones =  "<button class='btn btn-primary nuevaVentaAgregarProducto nuevaVentaRecuperarVenta' idProducto ='".$productos[$i]["codproducto"]."' descripcion='".$productos[$i]["nomproducto"]."' precio_venta = '".$productos[$i]["precio"]."' stock= '".$productos[$i]["stock"]."' codigo_producto_sunat='".$productos[$i]["lote"]."'  tipo_afectacion_sunat='' unidad_medida_sunat='".$productos[$i]["codunidad"]."'>Agregar</button>";
+		  	$botones =  "<button class='btn btn-primary nuevaVentaAgregarProducto nuevaVentaRecuperarVenta' idProducto ='".$productos[$i]["codproducto"]."' descripcion='".$productos[$i]["nomproducto"]."' precio_venta = '".$productos[$i]["precio"]."' stock= '".$productos[$i]["stock"]."' codtipoafectacion='".$productos[$i]["codtipoafectacion"]."' codigo_producto_sunat='".$productos[$i]["lote"]."'  tipo_afectacion_sunat='".$productos[$i]["tipo_afectacion_sunat"]."' unidad_medida_sunat='".$productos[$i]["codunidad"]."'>Agregar</button>";
 
 		  	$datosJson .='[
 			      "'.($i+1).'",

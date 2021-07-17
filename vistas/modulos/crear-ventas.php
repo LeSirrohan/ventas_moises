@@ -54,8 +54,10 @@ if( $flag == 0){
                     ======================================-->
                     <div class="col-lg-6 pt-2">
                     <!--<div id="accordion">-->
-                          <div class="row col-lg-12">
+                        <div class="row col-lg-12">
+                          <div class="container mt-1 py-1 bg-default" style="border: 1px solid #c4c4c4; border-radius: 5px">
                             <div class="card card-body">
+                            <label> Datos del Cliente</label>
                               <div class="form-group">
                                 <div class="input-group">
                                   <!--<input type="text" class="form-control" name="nuevaVentaSeleccionarCliente" placeholder="Buscar empresa">-->
@@ -112,31 +114,47 @@ if( $flag == 0){
                         <input type="hidden" class="nuevaVentaCliente" name ="nuevaVentaComprobante" placeholder="Informacion Comprobante">
                         <input type="hidden" class="nuevaVentaCliente" name ="nuevaVentaInfoCliente" placeholder="Lista Cliente">
                         <input type="hidden" class="" name ="nuevaVentaVuelto" placeholder="Informacion Vuelto">
+                    </div>
                     
                   </div>
                   <div class="col-lg-5 pt-2">
                     <div class="row col-lg-12 listaMetodoPago">
                       <div class="container mt-1 py-1 bg-default" style="border: 1px solid #c4c4c4; border-radius: 5px">
-                        <label for="" >Medio de pago</label>
+                        <label for="" >Datos del pago</label>
                         <div class = "form-group row">
-                          <div class  = "col-xs-12 col-sm-6">
-                            <label for="">Importe</label>
-                            <div class = "input-group mb-3">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                              </div>
-                              <input type="number" class="form-control input-lg nuevaVentaPagoMonto" idPago="0" step = "any" id="nuevaVentaPrimerCobro" min ="0" placeholder="Monto Pago">
+                          <!-- Entrada DE FECHA-->
+                          <div class  = "col-xs-12 col-md-6">
+                            <label>Forma Pago</label>
+                            <div class = "form-group" id="copiarEsto">
+                              <select name="" class ="form-control select2 nuevaVentaFormaPago" id="nuevaVentaFormaPagoOriginal" style="width: 100%;">
+
+                                <?php
+
+                                  $tipo_cobro = ControladorFormaPago::ctrMostrarFormaPago();
+                                  //print_r($tipo_cobro);
+                                  foreach ($tipo_cobro as $key => $value) {
+
+                                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                                    if($key == 0 )
+                                      echo '<option selected="selected" value="'.$value['codformapago'].'">'.  strtoupper ($value['nomformapago']).'</option>';
+                                      else
+                                    echo '<option value="'.$value['codformapago'].'">'. strtoupper ($value['nomformapago']).'</option>';
+                                  }
+
+                                ?>
+                              </select>
                             </div>
                           </div>
                           <!-- Entrada DE FECHA-->
                           <div class  = "col-xs-12 col-md-6">
-                            <label>Tipo</label>
+                            <label>Tipo Pago</label>
                             <div class = "form-group" id="copiarEsto">
                               <select name="" class ="form-control select2 nuevaVentaTipoPago" id="nuevaVentaTipoPagoOriginal" style="width: 100%;">
 
                                 <?php
 
-                                  $tipo_cobro = ControladorTipoCobro::ctrMostrarTipoCobro();
+                                  $tipo_cobro = ControladorTipoPago::ctrMostrarTipoPago();
                                   //print_r($tipo_cobro);
                                   foreach ($tipo_cobro as $key => $value) {
 
@@ -150,6 +168,65 @@ if( $flag == 0){
 
                                 ?>
                               </select>
+                            </div>
+                          </div>
+                          <!-- Entrada DE FECHA-->
+                          <div class  = "col-xs-12 col-md-6">
+                            <label>Tipo Comprobante</label>
+                            <div class = "form-group" id="copiarEsto">
+                              <select name="" class ="form-control select2 nuevaVentaTipoCpe" id="nuevaVentaTipoCpeOriginal" style="width: 100%;">
+
+                                <?php
+
+                                  $tipo_cobro = ControladorTipoCpe::ctrMostrarTipoCpe();
+                                  //print_r($tipo_cobro);
+                                  foreach ($tipo_cobro as $key => $value) {
+
+                                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                                    if($key == 0 )
+                                      echo '<option selected="selected" value="'.$value['codtipocpe'].'">'.  strtoupper ($value['nomtipocpe']).'</option>';
+                                      else
+                                    echo '<option value="'.$value['codtipocpe'].'">'. strtoupper ($value['nomtipocpe']).'</option>';
+                                  }
+
+                                ?>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- Entrada DE FECHA-->
+                          <div class  = "col-xs-12 col-md-6">
+                            <label>Tipo Afectacion</label>
+                            <div class = "form-group" id="copiarEsto">
+                              <select name="" class ="form-control select2 nuevaVentaTipoAfectacion" id="nuevaVentaTipoAfectacionOriginal" style="width: 100%;">
+
+                                <?php
+
+                                  $tipo_cobro = ControladorTipoAfectacion::ctrMostrarTipoAfectacion();
+                                  //print_r($tipo_cobro);
+                                  foreach ($tipo_cobro as $key => $value) {
+
+                                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                                    if($key == 0 )
+                                      echo '<option selected="selected" value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
+                                      else
+                                    echo '<option value="'.$value['codtipoafectacion'].'">'. strtoupper ($value['nomtipoafectacion']).'</option>';
+                                  }
+
+                                ?>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- -->
+                          <!-- -->
+                          <div class  = "col-xs-12 col-sm-6 col-md-12">
+                            <label for="">Importe</label>
+                            <div class = "input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                              </div>
+                              <input type="number" class="form-control input-lg nuevaVentaPagoMonto" idPago="0" step = "any" id="nuevaVentaPrimerCobro" min ="0" placeholder="Monto Pago">
                             </div>
                           </div>
                         </div>
@@ -179,11 +256,15 @@ if( $flag == 0){
                       <!--Monto a pagar-->
                       <div class = "form-group py-2 bg-gray">
                         <div class="row ">
-                          <div class="col-lg-6 row" style="margin-left:0px">
+                          <div class="col-lg-4 row" style="margin-left:0px">
                             <div class="col-lg-8" style="text-align:left">Total productos</div>
                             <div class="col-lg-4 cantidadTotalProductos" style="text-align:right">0</div>
                           </div>
-                          <div class="col-lg-6 row ml-2">
+                          <div class="col-lg-4 row ml-2">
+                            <div class="col-lg-6" style="text-align:left">Total IGV</div>
+                            <div class="col-lg-6 nuevaVentaTotalIgv" style="text-align:right">00.00</div>
+                          </div>
+                          <div class="col-lg-4 row ml-2">
                             <div class="col-lg-6" style="text-align:left">Total a pagar</div>
                             <div class="col-lg-6 nuevaVentaTotalPagar" style="text-align:right">00.00</div>
                           </div>
@@ -301,7 +382,9 @@ if( $flag == 0){
               </div>
               <div class="form-group">
                 <div class="row form-group">
-                  <div class="btn-group-vertical col-lg-3" style="width:90%">
+                  <div class="btn-group-vertical col-lg-6" style="width:90%">
+                  </div>
+                  <div class="btn-group-vertical col-lg-6" style="width:90%">
                     <button type="button" class="btn btn-success" id="generarVenta"><i class="far fa-money-bill-alt"></i> GenerarVenta</button>
                   </div>
                 </div>

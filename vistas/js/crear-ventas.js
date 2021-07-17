@@ -396,6 +396,7 @@ function listarProductos(){
     let impuesto_bolsas = 0 ;
     let valor_unitario = 0 ;
       let subtotal_aux= 0;
+      
 
       if($(descripcion[i]).attr("tipo_afectacion_sunat").toUpperCase() == 'GRAVADO' ){
        
@@ -497,7 +498,7 @@ function listarProductos(){
 
   descuento = Number(descuento) + Number($("#nuevaVentaDescuentoTotalId").val(   ));  // al descuento de los productos le sumamos el descuento del total de la cuenta.
 
-//  let impuestos_aux =  (  totalPedidoAfectadoPorIgv -  (    totalPedidoAfectadoPorIgv   / 1.18  )).toFixed(2) ;
+ let impuestos_aux =  (  totalPedidoAfectadoPorIgv -  (    totalPedidoAfectadoPorIgv   / 1.18  )).toFixed(2) ;
 
 
   $(".nuevaVentaListaProductos").val(  JSON.stringify(listaProductos)   ); 
@@ -509,7 +510,7 @@ function listarProductos(){
 
   $(".nuevaVentaTotalPedido").html(  totalPedido.toFixed(2)      );
 
-  //$(".nuevaVentaImpuestoTotal").html( impuestos_aux    );
+  $(".nuevaVentaTotalIgv").html( impuestos_aux    );
   //console.log("totalPedidoImpuestoBolsas", totalPedidoImpuestoBolsas);
 
   $(".nuevaVentaImpuestoBolsasTotal").html(  totalPedidoImpuestoBolsas.toFixed(2)  ) ;

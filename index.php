@@ -6,7 +6,11 @@ require_once "controladores/productos.controlador.php";
 require_once "controladores/clientes.controlador.php";
 require_once "controladores/ventas.controlador.php";
 
-require_once "controladores/tipo-cobro.controlador.php";
+require_once "controladores/tipo-pago.controlador.php";
+require_once "controladores/tipo-afectacion.controlador.php";
+require_once "controladores/tipo-cpe.controlador.php";
+
+require_once "controladores/forma-pago.controlador.php";
 require_once "controladores/usuario.controlador.php";
 
 require_once "modelos/usuario.modelo.php";
@@ -15,7 +19,11 @@ require_once "modelos/productos.modelo.php";
 require_once "modelos/clientes.modelo.php";
 require_once "modelos/ventas.modelo.php";
 
-require_once "modelos/tipo-cobro.modelo.php";
+require_once "modelos/tipo-pago.modelo.php";
+require_once "modelos/tipo-afectacion.modelo.php";
+require_once "modelos/tipo-cpe.modelo.php";
+
+require_once "modelos/forma-pago.modelo.php";
 $plantilla = new controladorPlantilla(); // Clase que esta dentro plantilla.controlador.php
 $plantilla -> ctrPlantilla();
 /*
