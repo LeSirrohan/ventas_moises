@@ -13,25 +13,26 @@ require_once "conexion.php";
 
 
 
-if ($item != null){
+		if ($item != null){
  		
- 		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND estado=1");
- 		$stmt -> bindParam(":".$item , $valor, PDO::PARAM_STR);
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND estado=1");
+			$stmt -> bindParam(":".$item , $valor, PDO::PARAM_STR);
 
- 		$stmt -> execute();
+			$stmt -> execute();
 
- 		return $stmt ->fetch();
+			return $stmt ->fetch();
 
- 		$stmt-> close();
- 		$stmt= null;
+			$stmt-> close();
+			$stmt= null;
 
 
-} else {
+		} else {
 
- 		$stmt = Conexion::conectar()->prepare("SELECT p.*, ap.valorunitario as stock, ta.nomtipoafectacion as tipo_afectacion_sunat
-		 FROM productos p 
-		 INNER JOIN almacenproducto ap ON p.codproducto = ap.codproducto
-		 INNER JOIN tipoafectacion ta ON p.codtipoafectacion = ta.codtipoafectacion;");
+ 		$stmt = Conexion::conectar()->prepare("SELECT  DISTINCT ON (p.codproducto) p.codproducto  as id_prod, ap.valorunitario as stock
+		 , ta.nomtipoafectacion as tipo_afectacion_sunat,p.*
+				  FROM productos p 
+				  INNER JOIN almacenproducto ap ON p.codproducto = ap.codproducto
+				  INNER JOIN tipoafectacion ta ON p.codtipoafectacion = ta.codtipoafectacion;");
 			/* $stmt = Conexion::conectar()->prepare("SELECT
 			 producto.*,
 			 '-' AS categoriaNombre,

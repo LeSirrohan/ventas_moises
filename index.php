@@ -5,6 +5,8 @@ require_once "controladores/plantilla.controlador.php";
 require_once "controladores/productos.controlador.php";
 require_once "controladores/clientes.controlador.php";
 require_once "controladores/ventas.controlador.php";
+require_once "controladores/inventario.controlador.php";
+require_once "controladores/categorias.controlador.php";
 
 require_once "controladores/tipo-pago.controlador.php";
 require_once "controladores/tipo-afectacion.controlador.php";
@@ -18,6 +20,8 @@ require_once "modelos/usuario.modelo.php";
 require_once "modelos/productos.modelo.php";
 require_once "modelos/clientes.modelo.php";
 require_once "modelos/ventas.modelo.php";
+require_once "modelos/inventario.modelo.php";
+require_once "modelos/categorias.modelo.php";
 
 require_once "modelos/tipo-pago.modelo.php";
 require_once "modelos/tipo-afectacion.modelo.php";

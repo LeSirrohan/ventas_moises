@@ -4,13 +4,13 @@
 
 
 
-$um = ControladorInventario::ctrMostrarUnidadMedidaxInventario ( );
-$local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
+//$um = ControladorInventario::ctrMostrarUnidadMedidaxInventario ( );
+//$local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
 // echo '<pre class="bg-white">'; print_r($um); echo '</pre>';
 
 ?>
 
-<input type="hidden" name= "crear_productos" id= "crear_productos" value=<?= $datos_local[0]['flag_crear_productos'] ?>>
+<input type="hidden" name= "crear_productos" id= "crear_productos" value=1>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,28 +40,14 @@ $local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
         <div class="col-md-12">
           <div class="card card-primary card-outline">
             <div class="card-header">
-            <div class="row">
-            
-              <div class="col-md-2">
-                <button type="button" class="btn btn-primary float-left" data-toggle = "modal" data-target ="#modalAgregarProducto" id="btnAgregarProducto">
-                  <i class="fas fa-plus-circle"></i> Agregar Producto
-                </button>
+              <div class="row">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-primary float-left" data-toggle = "modal" data-target ="#modalAgregarProducto" id="btnAgregarProducto">
+                    <i class="fas fa-plus-circle"></i> Agregar Producto
+                  </button>
+                </div>
+                <div class="col-5">&nbsp;</button></div>
               </div>
-              <?php if ($tipo_local != 3 ){ ?>
-              <div class="col-md-2 float-right">
-                <button type="button" class="btn btn-info float-left" id="obtenerProductosLocal">
-                  <i class="fas fa-cloud-download-alt"></i> Obtener Productos
-                </button>
-              </div>
-              <?php } ?>
-              <div class="col-5">&nbsp;</button></div>
-              <div class="col-md-3">
-                <button type="button" class="btn btn-info btnSincronizarProductos float-right" url_tienda= "<?= $url_tienda ?>">
-                  <i class="fas fa-sync"></i> Sincronizar Tienda Virtual
-                </button></div>
-            </div>
-              <span class="">
-              </span>
             </div>
             <div class="card-body">
             <table class="table table-bordered table-striped dt-responsive" id = "tablaProductos" width="100%">
@@ -125,20 +111,6 @@ $local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
 
 
         <!-- Entrada para seleccionar la categoría del producto-->
-          <div class = "form-group">
-             <select name="nuevoProductoCategoria" class ="form-control select2" style="width: 100%;" required>
-               <option selected="selected" value="" >Seleccionar categoría</option>
-               <?php
-                $item=null;
-                $valor= null;
-                $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                foreach ($categorias as $key => $value) {
-                  echo '<option value="'.$value['id'].'">'. strtoupper ($value['descripcion']).'</option>';
-                }
-
-               ?>
-             </select>
-          </div>
 
 
           <!-- Entrada para seleccionar el codigo-->
@@ -361,16 +333,6 @@ $local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
           <div class = "form-group">
              <select name="editarProductoCategoria" id="editarProductoCategoria" class ="form-control select2" style="width: 100%;" required>
 
-
-               <?php
-                $item=null;
-                $valor= null;
-                $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                foreach ($categorias as $key => $value) {
-                  echo '<option value="'.$value['id'].'">'. strtoupper ($value['descripcion']).'</option>';
-                }
-
-               ?>
              </select>
           </div>
 
@@ -523,9 +485,9 @@ $local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
   $crearProducto = new ControladorProductos();
   $crearProducto->ctrEditarProducto();
 ?>
-<input type="hidden" id="id_local" value="<?= $id_local ?>"/>
-<input type="hidden" id="ruta" value="<?= $local[0]['url_reportes_online'] ?>"/>
-<input type="hidden" id="nombre_local" value="<?= $local[0]['identificador_local'] ?>"/>
+<input type="hidden" id="id_local" value="1"/>
+<input type="hidden" id="ruta" value=""/>
+<input type="hidden" id="nombre_local" value="pepito sac"/>
     </div>
 
   </div>
@@ -633,35 +595,6 @@ $local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
                   <label for="">Producto inventario</label>
                   <select class="js-example-basic-single" name="unidadMedidaProductoEnlaceUnidadMedida" >
 
-
-               <?php
-                
-                foreach ($um as $key => $value) {
-                  
-                  if($value['unidad_medida'] == 0 ){
-                    
-                    echo '<optgroup label="'.$value['nombre'].'">';
-
-                  }
-                  else 
-
-                  {
-
-
-                                   if($um[$key-1]['unidad_medida'] == 0 )
-                                                   echo '</optgroup>';
-
-                                
-  echo '<option value='.$value['unidad_medida'].' >'.$value['nombre'].'</option>';
-   
-
-
-                  }
-                  
-
-                }
-
-               ?>
 
 
 

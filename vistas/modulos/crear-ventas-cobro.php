@@ -273,6 +273,8 @@ if ( total_igv_aux == 0 &&  ($('#collapseFactura').hasClass('show')  ||  $('#col
         confirmButtonText : "<i class='fa fa-print'></i> Imprimir comprobante!",
         allowOutsideClick : false
         }).then((result) => {
+          
+          window.location = "crear-ventas";return;
           /*if (result_.value) {
           swal({
             type              : "info",
