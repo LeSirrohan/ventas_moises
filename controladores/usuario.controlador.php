@@ -262,7 +262,7 @@ static public function ctrIngresoUsuario()
 
 
  				}else 
- 				$encriptar =  $_POST["passwordActual"]     ; 
+ 				$encriptar =  $_POST["editarPassword"]     ; 
 
 
  				$datos = array ("nombre" => $_POST["editarNombre"],

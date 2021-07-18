@@ -202,19 +202,19 @@
           <div class = "form-group">
             <div class = "input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class = "fas fa-user"> </i></span>
+                <span class="input-group-text"><i class = "fas fa-key"> </i></span>
               </div>
-                <input type="text" class="form-control input-lg" id="editarNombre" name= "editarNombre" placeholder="Edite el Nombre" readonly>
-
-
+                <input type="text" class="form-control input-lg" id="editarUsuario" name= "editarUsuario" placeholder="Edite el Usuario" readonly>
             </div>
           </div>
           <div class = "form-group">
             <div class = "input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class = "fas fa-key"> </i></span>
+                <span class="input-group-text"><i class = "fas fa-user"> </i></span>
               </div>
-                <input type="text" class="form-control input-lg" id="editarUsuario" name= "editarUsuario" placeholder="Edite el Usuario" required>
+                <input type="text" class="form-control input-lg" id="editarNombre" name= "editarNombre" placeholder="Edite el Nombre" required>
+
+
             </div>
           </div>
 

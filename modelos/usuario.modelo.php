@@ -138,12 +138,12 @@ require_once "conexion.php";
 			EDITAR USUARIOS
 =============================================*/
  	static public function mdlEditarUsuario($tabla, $datos){
-		$sql ="UPDATE  $tabla SET nomusuario = :nombre , clave = :password ,codperfil = :perfil WHERE codusuario = :usuario";
+		$sql ="UPDATE  $tabla SET nomusuario = :nombre , clave = :clave ,codperfil = :perfil WHERE codusuario = :usuario";
  		$stmt = Conexion::conectar()->prepare("$sql");
 
  		$stmt -> bindParam(":nombre" , $datos["nombre"], PDO::PARAM_STR);
  		$stmt -> bindParam(":usuario" , $datos["usuario"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":password" , $datos["password"], PDO::PARAM_STR);
+ 		$stmt -> bindParam(":clave" , $datos["password"], PDO::PARAM_STR);
  		$stmt -> bindParam(":perfil" , $datos["perfil"], PDO::PARAM_STR);
 
  		if( $stmt -> execute()) 
