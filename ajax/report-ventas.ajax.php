@@ -104,32 +104,18 @@ class AjaxListadoVentas {
 
 					"</div>";
 				$boton_descuento = "";
-				if($ventas[$i]['descuento'] >0){
-					$descuento = number_format($ventas[$i]['descuento'],2,".",",");
-					$boton_descuento = "<div class='text-center'><button class='btn btn-success btnVerDescuento' idVenta='".$ventas[$i]['codventa']."' descuento='".$ventas[$i]['descuento']."' motivo='".$ventas[$i]['descuento_motivo']."' data-toggle='modal' data-target='#modalVerDescuento'  title='Ver Descuentos'>".$descuento."&nbsp;<i class='fas fa-money-bill-wave-alt text-white'></i></button></div>";
-				}
-				else{
-					$boton_descuento = "<div class='text-center'>-</div>";
-
-				}
-				if($ventas[$i]["estado"]=="VENTA PROCESADA" )
-					$estado = "<span class='right badge badge-success' >".$ventas[$i]["estado"]."</span>";
-				else 
-					$estado = "<span class='right badge badge-danger' >".$ventas[$i]["estado"]."</span>";
 				
 				$total = number_format($ventas[$i]['total'],2,".",",");
 
  				$datosJson .='[
 			      "'.($i+1).'",
-			      "'.$ventas[$i]["fecha_venta"].'",
+			      "'.$ventas[$i]["fecemision"].'",
+			      "'.$ventas[$i]["tip_doc"].'",
 			      "'.$ventas[$i]["id_cliente"].'",
 			      "'.$ventas[$i]["cliente"].'",
 			      "'.$ventas[$i]["comprobante"].'",
-			      "'.$ventas[$i]["vendedor"]." <br> Apertura: ".$ventas[$i]["fecha_inicio_caja"]." <br> Cierre: ".$ventas[$i]["fecha_cierre_caja"].'",
-			      "'.$boton_descuento.'",
 				  "'.trim(preg_replace('/\s+/', ' ',$ventas[$i]["comentario"])) .'",
 			      "'.$total.'",
-			      "'.$estado.'",
 			      "'.$botones.'"
 			    ],';
 

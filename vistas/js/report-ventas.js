@@ -21,14 +21,12 @@
 	'  <tr>'+
 	'	<th style="width:10px">#</th>'+
 	'	<th>Fecha</th>'+
+	'	<th>Tipo. Doc.</th>'+
 	'	<th>Identificación</th>'+
-	'	<th>Nombre Comercial</th>'+
+	'	<th>Razón Social</th>'+
 	'	<th>Comprobante</th>'+
-	'	<th>Vendedor</th>'+
-	'	<th>Descuento</th>'+
 	'	<th>Comentario</th>'+
 	'	<th>Total</th>'+
-	'	<th>Estado</th>'+
 	'	<th>Acciones</th>'+
 	' </tr>'+
 	'</thead>'+
@@ -36,14 +34,12 @@
 	'	<tr>'+
 	'	<th style="width: 10px">#</th>'+
 	'	<th>Fecha</th>'+
+	'	<th>Tipo. Doc.</th>'+
 	'	<th>Identificación</th>'+
-	'	<th>Nombre Comercial</th>'+
+	'	<th>Razón Social</th>'+
 	'	<th>Comprobante</th>'+
-	'	<th>Vendedor</th>'+
-	'	<th>Descuento</th>'+
 	'	<th>Comentario</th>'+
 	'	<th>Total</th>'+
-	'	<th>Estado</th>'+
 	'	<th>Acciones</th>'+
 	'	</tr>'+
 	'</tfoot>'+

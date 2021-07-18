@@ -165,15 +165,17 @@ ORDER BY ventas.id DESC
 		$WHERE = "";
 		$GROUP = "";
 		$ORDER = "";
-		$SELECT .= " SELECT v.codventa, 
-		v.fecemision, 
-		v.codcliente, 
+		$SELECT .= " SELECT CAST(v.codventa AS INT) codventa, 
+		v.fecemision,
+		CONCAT(v.codserie,'-',v.nrocorrelativo ) comprobante,
+		tdi.nomcodtipodocumento as tip_doc,
 		c.docidentidad id_cliente, 
 		COALESCE ( c.nomrznsocial, 'No identificado' ) AS cliente, 
-		v.total, 
-		v.comentario
-		FROM ventas v
-		LEFT JOIN cliente c ON v.codcliente = c.codcliente  ";
+		v.total,
+		COALESCE(v.comentario , '-') AS comentario
+		FROM ventas v 
+		LEFT JOIN cliente c ON v.codcliente = c.codcliente 
+		LEFT JOIN tipodocumentoidentidad tdi ON tdi.codtipodocumento = c.codtipodocumento  ";
 		if($fechaInicio != "" AND $fechaFin != "")
 		{
 			$WHERE .=" WHERE cast(v.fecemision as date) BETWEEN :fecha1 AND :fecha2  ";
@@ -187,8 +189,6 @@ ORDER BY ventas.id DESC
 		$sql .= $GROUP;
 		$sql .= $ORDER;
 
-
-		echo $sql;exit;
 		$stmt = Conexion::conectar()->prepare(" $sql ");
 		if($fechaInicio != "" AND $fechaFin != "")
 		{
