@@ -104,7 +104,7 @@ class AjaxProductos {
 				$botones .=  "<div class='btn-group'><button type='button' class='btn btn-warning btnEditarProducto' codproducto='".$productos[$i]["codproducto"]."' idProducto='".$productos[$i]["id_prod"]."' descripcionEditarProducto='".$productos[$i]["descripcion"]."' ";
 				$botones .=  "codigoEditarProducto='".$productos[$i]["id_prod"]."'";
 				$botones .=  "codigo_producto_sunat='".$productos[$i]["codproducto"]."' precVentaEditarProducto='".$productos[$i]["precio"]."' ";
-				$botones .=  "tipo_afectacion_sunat='".$productos[$i]["tipo_afectacion_sunat"]."' unidad_medida_sunat='".$productos[$i]["codunidad"]."' ";
+				$botones .=  "tipo_afectacion_sunat='".$productos[$i]["codtipoafectacion"]."' unidad_medida_sunat='".$productos[$i]["codunidad"]."' ";
 				$botones .=  "data-toggle='modal' data-target='#modalEditarProducto'><i class='fas fa-edit'></i></button>";
 			}
 

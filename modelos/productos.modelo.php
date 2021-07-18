@@ -191,15 +191,22 @@ require_once "conexion.php";
 			$stmt -> bindParam(":moneda" , $moneda, PDO::PARAM_STR);	
 
 			$stmt->execute();
+			
+			$insert = $conn->prepare("INSERT INTO 
+			almacenproducto ( valorunitario, codalmacen,codproducto, codmoneda) 
+			VALUES ( '1', '1', :codproducto, :codmoneda);");
 
+			$moneda = "PEN";
+			$insert -> bindParam(":codproducto" , $datos["codproducto"], PDO::PARAM_STR);
+			$insert -> bindParam(":codmoneda" , $moneda, PDO::PARAM_STR);
+
+			$insert->execute();
 			//UNA VEZ QUE INSERTAMOS EL PRODUCTO ,  TERMINAMOS INSERTANDO LAS TRANSACCIONES
 
 			$conn->commit();
 			//echo'<script>console.log("AQUI:'.$lastID.'");</script>';
 			return array("error"=> 0, "data" =>$datos["codproducto"]);
 
-			$stmt->close();
-			$stmt = null; 
 
 		}
 		catch(Exception $e)
@@ -211,15 +218,10 @@ require_once "conexion.php";
 
  
  	}
-
-
-
-
  
 
  	static public function mdlEditarProductos($tabla, $datos){
 
- 	
 
 	try {
  		$conn = Conexion::conectar();
@@ -227,21 +229,17 @@ require_once "conexion.php";
 		$conn->beginTransaction();
  
 
- 		$stmt = $conn->prepare("UPDATE $tabla SET id_categoria = :id_categoria ,codigo_barras =:codigo_barras ,descripcion = :descripcion ,imagen = :imagen ,codigo_producto_sunat = :codigo_producto_sunat , unidad_medida_sunat = :unidad_medida_sunat , precio_venta = :precio_venta , tipo_afectacion_sunat=:tipo_afectacion_sunat  WHERE id = :id");
+ 		$stmt = $conn->prepare("UPDATE productos SET nomproducto = :nomproducto ,descripcion = :descripcion  , codunidad = :unidad_medida_sunat , precio = :precio_venta , codtipoafectacion=:tipo_afectacion_sunat  WHERE codproducto = :id;");
  
 
- 		$stmt -> bindParam(":id" , $datos["id"], PDO::PARAM_STR);
-		$stmt -> bindParam(":id_categoria" , $datos["id_categoria"], PDO::PARAM_STR);
-		$stmt -> bindParam(":codigo_barras" , $datos["codigo_barras"], PDO::PARAM_STR);
+ 		$stmt -> bindParam(":id" , $datos["codproducto"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nomproducto" , $datos["descripcion"], PDO::PARAM_STR);
 		$stmt -> bindParam(":descripcion" , $datos["descripcion"], PDO::PARAM_STR);
-		$stmt -> bindParam(":codigo_producto_sunat" , $datos["codigo_producto_sunat"], PDO::PARAM_STR);
  		$stmt -> bindParam(":unidad_medida_sunat" , $datos["unidad_medida_sunat"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":imagen" , $datos["imagen"], PDO::PARAM_STR); 	
  		$stmt -> bindParam(":tipo_afectacion_sunat" , $datos["tipo_afectacion_sunat"], PDO::PARAM_STR);
 
 
  		$stmt -> bindParam(":precio_venta" , $datos["precio_venta"], PDO::PARAM_STR);
- 		
  		
  		
 		$stmt->execute();

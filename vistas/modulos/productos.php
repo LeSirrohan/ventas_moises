@@ -333,7 +333,7 @@ if(isset($_POST['crear_producto']))
           <div class = "form-group row">
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Unidad de medida</label>
-              <select name="nuevoProductoUnidadSunat" class ="form-control select2" style="width: 100%; height:300px" required>
+              <select name="editarProductoUnidadSunat" class ="form-control select2" style="width: 100%; height:300px" required>
                 <?php
                   $um = ControladorUnidadMedida::ctrMostrarUnidadMedida();
                   //print_r($um);
@@ -355,7 +355,7 @@ if(isset($_POST['crear_producto']))
             <!-- Entrada para ingresar el stock minimo-->
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Tipo de afectación</label>
-              <select name="nuevoProductoAfectacion" class ="form-control select2" style="width: 100%; height:300px" required>
+              <select name="editarProductoAfectacion" class ="form-control select2" style="width: 100%; height:300px" required>
                 <?php
                   $tipo_afectacion = ControladorTipoAfectacion::ctrMostrarTipoAfectacion();
                   //print_r($tipo_afectacion);

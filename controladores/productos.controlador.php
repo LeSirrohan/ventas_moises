@@ -104,90 +104,20 @@ static public function ctrEditarProducto(){
 	
 
 
-				$ruta = $_POST["previsualizarCargarImagenProductoEdicion"] ;
-
-
-			/*=============================================
-						Validamos la imagen.
-			=============================================*/
-				if (isset($_FILES["cargarImagenProductoEdicion"]["tmp_name"] )  && !empty($_FILES["cargarImagenProductoEdicion"]["tmp_name"]) )
-				{
-
-					//borramos el anterior
-//					if (strpos($ruta, 'anonymous') === FALSE) //SI NO CONTIENE ELIMINAMOS
-						unlink($ruta);
-					
-
-
-
-
-					list($ancho, $alto) = getimagesize($_FILES["cargarImagenProductoEdicion"]["tmp_name"]);
-					$nuevoAncho = 300;
-					$nuevoAlto = 300;
-
-
-					$directorio = "vistas/img/productos";
-					$nombre = date("YmdHis");
-
-			/*=============================================
-				De acuerdo al tipo de imagen trabajamos
-			=============================================*/
-
-					if($_FILES["cargarImagenProductoEdicion"]["type"] == "image/jpeg"){
-						
-						$ruta =  $directorio."/".$nombre.".jpg";
-						$origen  = imagecreatefromjpeg($_FILES["cargarImagenProductoEdicion"]["tmp_name"]);
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-						imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-						imagejpeg($destino,$ruta );
-
-
-					}
-
-					else if($_FILES["cargarImagenProductoEdicion"]["type"] == "image/png"){
-						
-						$ruta =  $directorio."/".$nombre.".png";
-						$origen  = imagecreatefrompng($_FILES["cargarImagenProductoEdicion"]["tmp_name"]);
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-						//$newImg = imagecreatetruecolor($newWidth, $newHeight);
-					    imagealphablending($destino, false);
-					    imagesavealpha($destino, true);
-					    $transparent = imagecolorallocatealpha($destino, 255, 255, 255, 127);
-					    imagefilledrectangle($destino, 0, 0, $nuevoAncho, $nuevoAlto, $transparent);
-					    //$src_w = imagesx($image);
-					    //$src_h = imagesy($image);
-					    imagecopyresampled($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);		
-
-						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-						imagepng($destino,$ruta );
-
-
-
-
-						
-					}
-
-
- 
-
-
-				}
- 
+				
 
  
 			
-			$tabla = "producto";
- 			$datos = array ("id_categoria" => $_POST["editarProductoCategoria"],
- 							"codigo_barras" => $_POST["editarCodigoBarras"],
+			$tabla = "productos";
+ 			$datos = array (
  							"codigo_producto_sunat" => $_POST["editarCodigoSunatProducto"],
  							"precio_venta" => $_POST["editarPrecioVenta"],
  							"descripcion" =>  bd::sanear_strings_especiales($_POST["editarDescripcion"]),
- 							"id" => $_POST["editarIdProducto"],
+ 							"codproducto" => $_POST["editarIdProducto"],
+ 							"codproducto" => $_POST["editarIdProducto"],
 
 
  							"unidad_medida_sunat" => $_POST["editarProductoUnidadSunat"],
- 							"imagen" => $ruta,
  							"tipo_afectacion_sunat" => $_POST["editarProductoAfectacion"] );
 
 			$respuesta = ModeloProductos::mdlEditarProductos($tabla,$datos);
