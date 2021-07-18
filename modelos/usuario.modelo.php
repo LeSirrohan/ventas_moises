@@ -116,7 +116,7 @@ require_once "conexion.php";
  	static public function mdlIngresarUsuario($tabla, $datos){
 
  		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (codusuario, apepatusuario, nomusuario, clave, codperfil, fecingreso, correo, fecexpiracion, nrointentos, bloqueado, codgrupo) 
-		 VALUES (:nombre , '', :usuario, :password , :perfil, now(), '', now(), 0, 0, 1 )");
+		 VALUES (:usuario , '', :nombre, :password , :perfil, now(), '', now(), 0, 0, 1 )");
 
  		$stmt -> bindParam(":nombre" , $datos["nombre"], PDO::PARAM_STR);
  		$stmt -> bindParam(":usuario" , $datos["usuario"], PDO::PARAM_STR);

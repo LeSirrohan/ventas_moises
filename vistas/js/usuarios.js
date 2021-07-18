@@ -169,3 +169,10 @@ $(document).on("click",".btnEliminarUsuario" , function(){
 
 
 });
+$('#modalAgregarUsuario').on('show.bs.modal', function (event) {
+	$("input[name='nuevoNombre']").val("");
+	$("input[name='nuevoUsuario']").val("");
+	$("input[name='nuevoPassword']").val("");
+
+	$("input[name='nuevoPerfil']").val("").trigger('change.select2');
+  })
