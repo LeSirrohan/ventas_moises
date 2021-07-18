@@ -28,7 +28,7 @@ class ModeloClientes{
 		$stmt->bindParam(":docidentidad", $datos["documento"], PDO::PARAM_INT);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
 		$stmt->bindParam(":codubigeo", $codubigeo, PDO::PARAM_STR);
-		$stmt->bindParam(":codtipodocumento", $codtipodocumento, PDO::PARAM_STR);
+		$stmt->bindParam(":codtipodocumento", $datos["tipo_doc_id"], PDO::PARAM_STR);
 		$stmt->bindParam(":codemp", $codemp, PDO::PARAM_STR);
 
 		if($stmt->execute()){
@@ -99,10 +99,10 @@ class ModeloClientes{
 	static public function mdlMostrarClientes($tabla, $item, $valor){
 
 		if($item != null){
-
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE docidentidad = :$item ;");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE docidentidad = :$item OR codcliente = :codcliente ;");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+			$stmt -> bindParam(":codcliente", $valor, PDO::PARAM_STR);
 
 			$stmt -> execute();
 
@@ -359,18 +359,14 @@ class ModeloClientes{
 	=============================================*/
 
 	static public function mdlEditarCliente($tabla, $datos){
-
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, nombre_comercial = :nombre_comercial, nota = :nota, id_documento = :documento, email = :email, telefono = :telefono, direccion = :direccion, fecha_nacimiento = :fecha_nacimiento WHERE id_documento = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nomrznsocial = :nomrznsocial, direccion = :direccion,  docidentidad = :documento, codtipodocumento = :tipo_doc_id WHERE codcliente = :id");
 
 		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":nombre_comercial", $datos["nombre_comercial"], PDO::PARAM_STR);
-		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt->bindParam(":nomrznsocial", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
-		$stmt->bindParam(":nota", $datos["nota"], PDO::PARAM_STR);
+		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+		$stmt->bindParam(":tipo_doc_id", $datos["tipo_doc_id"], PDO::PARAM_STR);
+		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 

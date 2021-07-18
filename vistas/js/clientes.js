@@ -20,15 +20,12 @@ $(document).on("click", ".btnEditarCliente", function(){
       success:function(respuesta)
       {
       
-          $("#idCliente").val(idCliente);
-          $("#editarCliente").val(respuesta["nombre"]);
-          $("#editarNombreComercial").val(respuesta["nombre_comercial"]);
-          $("#editarDocumentoId").val(respuesta["id_documento"]);
-          $("#editarEmail").val(respuesta["email"]);
-          $("#editarTelefono").val(respuesta["telefono"]);
+          $("#idCliente").val(respuesta["codcliente"]);
+          $("#editarCliente").val(respuesta["nomrznsocial"]);
+          $("#editarTipoDocIdentidad").val(respuesta["codtipodocumento"]);
+          $("#editarNombreComercial").val(respuesta["nomrznsocial"]);
+          $("#editarDocumentoId").val(respuesta["docidentidad"]);
           $("#editarDireccion").val(respuesta["direccion"]);
-          $("#editarFechaNacimiento").val(respuesta["fecha_nacimiento"]);
-          $("#editarNota").val(respuesta["nota"]);
           
 	    }
 

@@ -108,7 +108,7 @@ class ControladorClientes{
 					           "email"=>$_POST["nuevoEmail"],
 					           "telefono"=>$_POST["nuevoTelefono"],
 					           "direccion"=>$_POST["nuevaDireccion"],
-					           "fecha_nacimiento"=>$_POST["nuevaFechaNacimiento"]);
+					           "tipo_doc_id"=>$_POST["nuevoTipoDocIdentidad"]);
 
 					
 			   	$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
@@ -253,13 +253,9 @@ if($crud)
 
 			   	$datos = array("id"=>$_POST["idCliente"],
 			   				   "nombre"=>$_POST["editarCliente"],
-			   				   "nombre_comercial"=>$_POST["editarNombreComercial"],
 					           "documento"=>$_POST["editarDocumentoId"],
-					           "email"=>$_POST["editarEmail"],
-					           "telefono"=>$_POST["editarTelefono"],
 					           "direccion"=>$_POST["editarDireccion"],
-					           "nota"=>$_POST["editarNota"],
-							   "fecha_nacimiento"=>$_POST["editarFechaNacimiento"]);
+					           "tipo_doc_id"=>$_POST["editarTipoDocIdentidad"]);
 
 			   	$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
 

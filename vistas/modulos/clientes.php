@@ -175,8 +175,31 @@ MODAL AGREGAR CLIENTE
               </div>
 
             </div>-->
+            
+            <!-- Entrada para ingresar el stock minimo-->
+            
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class = "fas fa-user"> </i></span>
+                </div>
+                <select name="nuevoTipoDocIdentidad" class ="form-control select2" style="width: 90%; height:300px" required>
+                  <?php
+                    $tip_doc_identidad = ControladorTipoDocIdentidad::ctrMostrarTipDocIdentidad();
+                    //print_r($tip_doc_identidad);
+                    foreach ($tip_doc_identidad as $key => $value) {
 
-            <!-- ENTRADA PARA EL EMAIL -->
+                      if($key == 0 )
+                        echo '<option selected="selected" value="'.$value['codtipodocumento'].'">'.  strtoupper ($value['nomcodtipodocumento']).'</option>';
+                      else
+                        echo '<option value="'.$value['codtipodocumento'].'">'.  strtoupper ($value['nomcodtipodocumento']).'</option>';
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
+
+            <!-- ENTRADA PARA EL EMAIL
 
             <div class="form-group">
 
@@ -187,9 +210,9 @@ MODAL AGREGAR CLIENTE
                 <input type="email" class="form-control input-lg" name="nuevoEmail" placeholder="Ingresar email">
               </div>
 
-            </div>
+            </div>-->
 
-            <!-- ENTRADA PARA EL TELÉFONO -->
+            <!-- ENTRADA PARA EL TELÉFONO
 
             <div class="form-group">
               <div class="input-group">
@@ -199,7 +222,7 @@ MODAL AGREGAR CLIENTE
                 <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar teléfono" >
               </div>
 
-            </div>
+            </div>-->
 
             <!-- ENTRADA PARA LA DIRECCIÓN -->
 
@@ -344,7 +367,7 @@ MODAL EDITAR CLIENTE
 
             </div>
 
-            <!-- ENTRADA PARA EL NOMBRE COMERCIAL-->
+            <!-- ENTRADA PARA EL NOMBRE COMERCIAL
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend">
@@ -353,31 +376,30 @@ MODAL EDITAR CLIENTE
                 <input type="text" class="form-control" name="editarNombreComercial" id="editarNombreComercial" required>
               </div>
 
-            </div>
-
-            <!-- ENTRADA PARA EL EMAIL -->
-
+            </div> -->
+            
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class = "fas fa-envelope"> </i></span>
+                  <span class="input-group-text"><i class = "fas fa-user"> </i></span>
                 </div>
-                <input type="email" class="form-control input-lg" name="editarEmail" id="editarEmail">
+                <select name="editarTipoDocIdentidad" id="editarTipoDocIdentidad" class ="form-control select2" style="width: 90%; height:300px" required>
+                  <?php
+                    $tip_doc_identidad = ControladorTipoDocIdentidad::ctrMostrarTipDocIdentidad();
+                    //print_r($tip_doc_identidad);
+                    foreach ($tip_doc_identidad as $key => $value) {
+
+                      if($key == 0 )
+                        echo '<option selected="selected" value="'.$value['codtipodocumento'].'">'.  strtoupper ($value['nomcodtipodocumento']).'</option>';
+                      else
+                        echo '<option value="'.$value['codtipodocumento'].'">'.  strtoupper ($value['nomcodtipodocumento']).'</option>';
+                    }
+                  ?>
+                </select>
               </div>
             </div>
 
-            <!-- ENTRADA PARA EL TELÉFONO -->
-
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
-                </div>
-                <input type="text" class="form-control input-lg" name="editarTelefono" id="editarTelefono" data-inputmask="'mask':'(999) 999-9999'" data-mask>
-              </div>
-            </div>
-
-            <!-- ENTRADA PARA LA DIRECCIÓN -->
+            <!-- ENTRADA PARA LA DIRECCIÓN  -->
 
             <div class="form-group">
               <div class="input-group">
@@ -386,9 +408,9 @@ MODAL EDITAR CLIENTE
                 </div>
                 <input type="text" class="form-control input-lg" name="editarDireccion" id="editarDireccion">
               </div>
-            </div>
+            </div> 
 
-            <!-- ENTRADA PARA LA NOTA -->
+            <!-- ENTRADA PARA LA NOTA 
 
             <div class="form-group">
               <div class="input-group">
@@ -397,9 +419,9 @@ MODAL EDITAR CLIENTE
                 </div>
                 <input type="text" class="form-control input-lg" name="editarNota" id="editarNota">
               </div>
-            </div>
+            </div> -->
 
-             <!-- ENTRADA PARA LA FECHA DE NACIMIENTO -->
+             <!-- ENTRADA PARA LA FECHA DE NACIMIENTO 
 
             <div class="form-group">
               <div class="input-group">
@@ -408,7 +430,7 @@ MODAL EDITAR CLIENTE
                 </div>
                 <input type="text" class="form-control input-lg" name="editarFechaNacimiento" id="editarFechaNacimiento" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy"  data-mask>
               </div>
-            </div>
+            </div> -->
 
         </div>
 

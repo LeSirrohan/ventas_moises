@@ -11,6 +11,7 @@ require_once "controladores/categorias.controlador.php";
 require_once "controladores/tipo-pago.controlador.php";
 require_once "controladores/tipo-afectacion.controlador.php";
 require_once "controladores/tipo-cpe.controlador.php";
+require_once "controladores/tipo-doc-identidad.controlador.php";
 require_once "controladores/unidad-medida.controlador.php";
 
 require_once "controladores/forma-pago.controlador.php";
@@ -27,6 +28,7 @@ require_once "modelos/categorias.modelo.php";
 require_once "modelos/tipo-pago.modelo.php";
 require_once "modelos/tipo-afectacion.modelo.php";
 require_once "modelos/tipo-cpe.modelo.php";
+require_once "modelos/tipo-doc-identidad.modelo.php";
 require_once "modelos/unidad-medida.modelo.php";
 
 require_once "modelos/forma-pago.modelo.php";

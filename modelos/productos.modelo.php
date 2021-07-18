@@ -373,7 +373,7 @@ catch(Exception $e) {
 
 	static public function mdlReporteProductos(){
 
-		$stmt = Conexion::conectar()->prepare("SELECT DISTINCT  ON (v.codventa) v.codventa, p.*
+		$stmt = Conexion::conectar()->prepare("SELECT CAST(v.codventa as INT) codventa, p.*
 		FROM ventas as v 
 		INNER JOIN detalle AS d ON d.codventa = v.codventa
 		LEFT JOIN productos as p ON d.codproducto = p.codproducto");
