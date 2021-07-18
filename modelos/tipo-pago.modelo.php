@@ -20,7 +20,7 @@ require_once "conexion.php";
 	=============================================*/
 	static public function mdlMostrarTipoPago($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla" );
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM tipopago" );
 
 		$stmt -> execute();
 
