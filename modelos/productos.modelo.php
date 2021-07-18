@@ -373,10 +373,11 @@ catch(Exception $e) {
 
 	static public function mdlReporteProductos(){
 
-		$stmt = Conexion::conectar()->prepare("SELECT CAST(v.codventa as INT) codventa, p.*
+		$stmt = Conexion::conectar()->prepare("SELECT CAST(v.codventa as INT) codventa, v.fecemision, ta.nomtipoafectacion, p.*
 		FROM ventas as v 
 		INNER JOIN detalle AS d ON d.codventa = v.codventa
-		LEFT JOIN productos as p ON d.codproducto = p.codproducto");
+		LEFT JOIN productos as p ON d.codproducto = p.codproducto
+		LEFT JOIN tipoafectacion as ta ON ta.codtipoafectacion = d.codtipoafectacion;");
 	
 		$stmt -> execute();
 

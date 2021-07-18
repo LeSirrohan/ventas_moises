@@ -35,6 +35,7 @@ $("#tablaDinamicaProductos").html('<table class="table table-bordered table-stri
 '<thead>'+
 '  <tr>'+
 '	<th>Cod. Venta</th>'+
+'	<th>Fecha Venta</th>'+
 '	<th>Producto</th>'+
 '	<th>Nombre Producto</th>'+
 '	<th>Precio Venta</th>'+
@@ -47,6 +48,7 @@ $("#tablaDinamicaProductos").html('<table class="table table-bordered table-stri
 '<tfoot>'+
 '	<tr>'+
 '	<th>Cod. Venta</th>'+
+'	<th>Fecha Venta</th>'+
 '	<th>Producto</th>'+
 '	<th>Nombre Producto</th>'+
 '	<th>Precio Venta</th>'+

@@ -39,11 +39,12 @@ class AjaxReporProd {
                     $estado = "<span class='right badge badge-danger' >INACTIVO</span>";*/
  				$datosJson .='[
 				"'.$productos[$i]["codventa"].'",
+				"'.$productos[$i]["fecemision"].'",
 				"'.$productos[$i]["codproducto"].'",
 				"'.$productos[$i]["nomproducto"].'",
 			      "'.$productos[$i]["precio"].'",
 			      "'.$productos[$i]["lote"].'",
-			      "'.$productos[$i]["codtipoafectacion"].'",
+			      "'.$productos[$i]["nomtipoafectacion"].'",
 			      "'.$productos[$i]["codunidad"].'",
 			      "'.$acciones.'"
 			    ],';

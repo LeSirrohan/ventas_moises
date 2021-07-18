@@ -188,7 +188,7 @@ ORDER BY ventas.id DESC
 		$sql .= $ORDER;
 
 
-
+		echo $sql;exit;
 		$stmt = Conexion::conectar()->prepare(" $sql ");
 		if($fechaInicio != "" AND $fechaFin != "")
 		{
