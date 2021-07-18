@@ -16,8 +16,10 @@ require_once "controladores/unidad-medida.controlador.php";
 
 require_once "controladores/forma-pago.controlador.php";
 require_once "controladores/usuario.controlador.php";
+require_once "controladores/dashboard.controlador.php";
 
 require_once "modelos/usuario.modelo.php";
+require_once "modelos/dashboard.modelo.php";
 
 require_once "modelos/productos.modelo.php";
 require_once "modelos/clientes.modelo.php";
