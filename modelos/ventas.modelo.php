@@ -165,32 +165,21 @@ ORDER BY ventas.id DESC
 		$WHERE = "";
 		$GROUP = "";
 		$ORDER = "";
-		$SELECT .= " SELECT
-				ventas.id,
-				ventas.fecha_venta,
-				ventas.id_documento_cliente,
-				IFNULL(cliente.id_documento,'----') id_cliente,
-				COALESCE ( cliente.nombre_comercial, 'No identificado' ) AS cliente,
-				COALESCE ( CONCAT( comprobante.serie, '-', comprobante.correlativo ), 'Ticket' ) AS comprobante,
-				ventas.total,
-				IFNULL( ventas.comentario, '-' ) comentario,
-				ventas.descuento,
-				ventas.descuento_motivo,
-				ventas.total AS 'impuesto',
-				IF ( ventas.anulado = '1', 'ANULADO' , 'VENTA PROCESADA' ) AS estado,
-				sesion_caja.nombre_usuario AS vendedor,
-				sesion_caja.fecha_inicio_caja,
-				COALESCE (sesion_caja.fecha_cierre_caja , '-' ) AS fecha_cierre_caja
-			FROM ventas 
-				LEFT JOIN cliente ON ventas.id_documento_cliente = cliente.id_documento
-				LEFT JOIN comprobante ON comprobante.id_venta = ventas.id 
-				LEFT JOIN sesion_caja ON sesion_caja.id = ventas.id_sesion_caja  ";
+		$SELECT .= " SELECT v.codventa, 
+		v.fecemision, 
+		v.codcliente, 
+		c.docidentidad id_cliente, 
+		COALESCE ( c.nomrznsocial, 'No identificado' ) AS cliente, 
+		v.total, 
+		v.comentario
+		FROM ventas v
+		LEFT JOIN cliente c ON v.codcliente = c.codcliente  ";
 		if($fechaInicio != "" AND $fechaFin != "")
 		{
-			$WHERE .=" WHERE cast(ventas.fecha_venta as date) BETWEEN :fecha1 AND :fecha2  ";
+			$WHERE .=" WHERE cast(v.fecemision as date) BETWEEN :fecha1 AND :fecha2  ";
 		}
 		$GROUP .= "";
-		$ORDER .= " ORDER BY ventas.id DESC ";
+		$ORDER .= " ORDER BY v.codventa DESC ";
 		$sql = "";
 		$sql .= $SELECT;
 		$sql .= $FROM ;
@@ -199,7 +188,6 @@ ORDER BY ventas.id DESC
 		$sql .= $ORDER;
 
 
-		
 
 		$stmt = Conexion::conectar()->prepare(" $sql ");
 		if($fechaInicio != "" AND $fechaFin != "")

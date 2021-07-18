@@ -112,7 +112,7 @@ if(isset($_POST['accion']) AND $_POST['accion'] == "EditarCliente"){
     </section>
     <!-- /.content -->
 </div>
-<input id="id_usuario" type="text" value="<?= $_SESSION['id'] ?>" />
+<input id="id_usuario" type="hidden" value="<?= $_SESSION['id'] ?>" />
 
 <!--=====================================
 MODAL AGREGAR CLIENTE
@@ -196,7 +196,7 @@ MODAL AGREGAR CLIENTE
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
                 </div>
-                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask>
+                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar teléfono" >
               </div>
 
             </div>

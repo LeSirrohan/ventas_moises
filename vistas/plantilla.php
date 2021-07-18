@@ -180,6 +180,10 @@ $.widget.bridge('uibutton', $.ui.button)
             || $_GET["ruta"]=="usuarios"
             || $_GET["ruta"]=="clientes"
             || $_GET["ruta"]=="productos"
+            || $_GET["ruta"]=="report-ventas-cliente"
+            || $_GET["ruta"]=="report-venta"
+            || $_GET["ruta"]=="report-venta-detalle"
+            || $_GET["ruta"]=="report-prod"
             || $_GET["ruta"]=="crear-ventas"
             || $_GET["ruta"]=="ventas"
             || $_GET["ruta"]=="salir" ){

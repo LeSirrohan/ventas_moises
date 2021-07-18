@@ -375,19 +375,10 @@ catch(Exception $e) {
 
 	static public function mdlReporteProductos(){
 
-		$stmt = Conexion::conectar()->prepare(" SELECT
-		P.*,
-		C.descripcion AS nombre_categoria,
-		IFNULL(MAX( V.fecha_venta ),'-') AS ultima_venta 
-	FROM
-		producto P
-		LEFT JOIN categoria C ON C.id = P.id_categoria
-		LEFT JOIN ventas_detalle VD ON VD.id_producto = P.id
-		LEFT JOIN ventas V ON VD.id_ventas = V.id 
-	GROUP BY
-		P.id 
-	ORDER BY
-		P.id ASC");
+		$stmt = Conexion::conectar()->prepare("SELECT DISTINCT  ON (v.codventa) v.codventa, p.*
+		FROM ventas as v 
+		INNER JOIN detalle AS d ON d.codventa = v.codventa
+		LEFT JOIN productos as p ON d.codproducto = p.codproducto");
 	
 		$stmt -> execute();
 

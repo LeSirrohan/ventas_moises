@@ -12,23 +12,30 @@ class ModeloClientes{
 
 
  		$conn = Conexion::conectar();
+		$select = $conn->prepare("SELECT (MAX(codcliente)+1)*1 AS max FROM cliente");
+		$select -> execute();
 
- 		$stmt = $conn->prepare("INSERT INTO $tabla(nombre, id_documento, email, telefono, direccion, fecha_nacimiento, nombre_comercial) VALUES (:nombre, :documento, :email, :telefono, :direccion, :fecha_nacimiento, :nombre_comercial)");
+		$codcliente= $select -> fetchAll(PDO::FETCH_ASSOC);
+ 		$stmt = $conn->prepare("INSERT INTO $tabla(codcliente, nomrznsocial, docidentidad, direccion, codubigeo, codtipodocumento, referencia, codemp) 
+		 VALUES (:codcliente, :nomrznsocial, :docidentidad, :direccion, :codubigeo, :codtipodocumento, '', :codemp)");
 
-
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":nombre_comercial", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$codemp = 1;
+		$codubigeo = "010102";
+		$codtipodocumento = 1;
+		$codemp = 1;
+		$stmt->bindParam(":codcliente", $codcliente[0]["max"], PDO::PARAM_STR);
+		$stmt->bindParam(":nomrznsocial", $datos["nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":docidentidad", $datos["documento"], PDO::PARAM_INT);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":codubigeo", $codubigeo, PDO::PARAM_STR);
+		$stmt->bindParam(":codtipodocumento", $codtipodocumento, PDO::PARAM_STR);
+		$stmt->bindParam(":codemp", $codemp, PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
-			$lastID = $conn->lastInsertId();
+			//$lastID = $conn->lastInsertId();
  			//echo'<script>console.log("AQUI:'.$lastID.'");</script>';
- 			return $lastID;
+ 			return $codcliente[0]["max"];
 
 		}else{
 
@@ -386,8 +393,7 @@ class ModeloClientes{
 
 	static public function mdlEliminarCliente($tabla, $datos){
 
-		//$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = '0' WHERE id_documento = :id");
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE codcliente = :id");
 
 		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
 
