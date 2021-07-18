@@ -101,16 +101,16 @@ class AjaxProductos {
 
 			if($crear_productos == 1)
 			{
-				$botones .=  "<div class='btn-group'><button type='button' class='btn btn-warning btnEditarProducto' idProducto='".$productos[$i]["id_prod"]."' descripcionEditarProducto='".$productos[$i]["descripcion"]."' ";
+				$botones .=  "<div class='btn-group'><button type='button' class='btn btn-warning btnEditarProducto' codproducto='".$productos[$i]["codproducto"]."' idProducto='".$productos[$i]["id_prod"]."' descripcionEditarProducto='".$productos[$i]["descripcion"]."' ";
 				$botones .=  "codigoEditarProducto='".$productos[$i]["id_prod"]."'";
 				$botones .=  "codigo_producto_sunat='".$productos[$i]["codproducto"]."' precVentaEditarProducto='".$productos[$i]["precio"]."' ";
 				$botones .=  "tipo_afectacion_sunat='".$productos[$i]["tipo_afectacion_sunat"]."' unidad_medida_sunat='".$productos[$i]["codunidad"]."' ";
 				$botones .=  "data-toggle='modal' data-target='#modalEditarProducto'><i class='fas fa-edit'></i></button>";
 			}
 
-			$botones .= "<button type='button' class='btn btn-info btnUnidadMedidaProducto'  idProducto='".$productos[$i]["id_prod"]."'data-toggle='modal' data-target='#modalEnlaceInventario'><i class='fas fa-cubes'></i></button>";
+			//$botones .= "<button type='button' class='btn btn-info btnUnidadMedidaProducto'  idProducto='".$productos[$i]["id_prod"]."'data-toggle='modal' data-target='#modalEnlaceInventario'><i class='fas fa-cubes'></i></button>";
 			
-			$botones .= $boton_imprimir;
+			//$botones .= $boton_imprimir;
 
 
 			if($crear_productos == 1)

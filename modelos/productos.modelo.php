@@ -31,7 +31,7 @@ require_once "conexion.php";
  		$stmt = Conexion::conectar()->prepare("SELECT  DISTINCT ON (p.codproducto) p.codproducto  as id_prod, ap.valorunitario as stock
 		 , ta.nomtipoafectacion as tipo_afectacion_sunat,p.*
 				  FROM productos p 
-				  INNER JOIN almacenproducto ap ON p.codproducto = ap.codproducto
+				  LEFT JOIN almacenproducto ap ON p.codproducto = ap.codproducto
 				  INNER JOIN tipoafectacion ta ON p.codtipoafectacion = ta.codtipoafectacion;");
 			/* $stmt = Conexion::conectar()->prepare("SELECT
 			 producto.*,
@@ -170,102 +170,43 @@ require_once "conexion.php";
 
  	static public function mdlIngresarProductos( $datos ,  $crearParejaInventario ,$costoIdeal , 	$cantidad_alerta , $fecha  ){
 
-	try {
- 		$conn = Conexion::conectar();
-		
-		$conn->beginTransaction();
- 
-
- 		$stmt = $conn->prepare("INSERT INTO producto(id_categoria,codigo_barras,descripcion,imagen, precio_venta, codigo_producto_sunat, tipo_afectacion_sunat ,unidad_medida_sunat ,fecha) VALUES (:id_categoria , :codigo_barras, :descripcion , :imagen  , :precio_venta , :codigo_producto_sunat ,:tipo_afectacion_sunat,:unidad_medida_sunat,:fecha )");
-
- 		$ultimo_id_producto =0;
-
- 		$stmt -> bindParam(":id_categoria" , $datos["id_categoria"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":codigo_barras" , $datos["codigo_barras"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":descripcion" , $datos["descripcion"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":imagen" , $datos["imagen"], PDO::PARAM_STR); 		
- 		$stmt -> bindParam(":precio_venta" , $datos["precio_venta"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":tipo_afectacion_sunat" , $datos["tipo_afectacion_sunat"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":codigo_producto_sunat" , $datos["codigo_producto_sunat"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":unidad_medida_sunat" , $datos["unidad_medida_sunat"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":fecha" , $fecha, PDO::PARAM_STR);	
-
-		$stmt->execute();
-		$ultimo_id_producto = $conn->lastInsertId();
-
-
-if($crearParejaInventario == 1 ){
-
-//PRIMERO CREAMOS EL PRODUCTO A INVENTARIAR
-
-	$stmt = $conn->prepare("INSERT INTO inventario(nombre,medida_ingreso ,cantidad_alerta, medida_reporte, costo_ideal, codigo_barras,fecha, id_almacen) VALUES (:descripcion , :unidad_medida_sunat   , :cantidad_alerta , :medida_reporte ,:costo_ideal,:codigo_barras, :fecha, :id_almacen )");
-
-		$ultimo_id_inventario =0;
-
-		$medida_reporte_defecto = 'Medida de Entrada';
- 		$stmt -> bindParam(":descripcion" , $datos["descripcion"], PDO::PARAM_STR);
-		$stmt -> bindParam(":unidad_medida_sunat" , $datos["unidad_medida_sunat"], PDO::PARAM_STR);
+		try 
+		{
+			$conn = Conexion::conectar();
 			
-		$stmt -> bindParam(":cantidad_alerta" , $cantidad_alerta,  PDO::PARAM_STR); 	
-		$stmt -> bindParam(":medida_reporte" , $medida_reporte_defecto,  PDO::PARAM_STR); 	
-		$stmt -> bindParam(":costo_ideal" , $costoIdeal,  PDO::PARAM_STR); 	
-		$stmt -> bindParam(":codigo_barras" , $datos["codigo_barras"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fecha" , $fecha, PDO::PARAM_STR);
-		$stmt -> bindParam(":id_almacen" , $datos['id_almacen'], PDO::PARAM_STR);	
+			$conn->beginTransaction();
 
-		$stmt->execute();
-		$ultimo_id_inventario = $conn->lastInsertId();
+			$stmt = $conn->prepare("INSERT INTO 
+			productos( codproducto, nomproducto, descripcion, fecingreso, lote, nroserie, precio ,codunidad ,codmarca, codmoneda, codtipoafectacion) 
+			VALUES ( :codproducto, :nomproducto, :descripcion, NOW() , '', '', :precio_venta , :unidad_medida_sunat , '01', :moneda, :tipo_afectacion_sunat);");
 
+			$ultimo_id_producto =0;
+			$moneda = "PEN";
+			$stmt -> bindParam(":codproducto" , $datos["codproducto"], PDO::PARAM_STR);
+			$stmt -> bindParam(":nomproducto" , $datos["descripcion"], PDO::PARAM_STR);
+			$stmt -> bindParam(":descripcion" , $datos["descripcion"], PDO::PARAM_STR);
+			$stmt -> bindParam(":precio_venta" , $datos["precio_venta"], PDO::PARAM_STR);
+			$stmt -> bindParam(":tipo_afectacion_sunat" , $datos["tipo_afectacion_sunat"], PDO::PARAM_STR);
+			$stmt -> bindParam(":unidad_medida_sunat" , $datos["unidad_medida_sunat"], PDO::PARAM_STR);
+			$stmt -> bindParam(":moneda" , $moneda, PDO::PARAM_STR);	
 
-//AHORA CREAMOS LA UNIDAD DE MEDIDA DE SALIDA
-	$stmt = $conn->prepare("INSERT INTO inventario_x_unidad_medida_salida(unidad_medida_salida,id_inventario,equivalencia ) VALUES (:unidad_medida_salida,:id_inventario, :equivalencia )");
+			$stmt->execute();
 
-		$equivalencia = 1;
-		$ultimo_id_unidad_medida_salida =0;
+			//UNA VEZ QUE INSERTAMOS EL PRODUCTO ,  TERMINAMOS INSERTANDO LAS TRANSACCIONES
 
- 		$stmt -> bindParam(":unidad_medida_salida" ,  $datos["unidad_medida_sunat"], PDO::PARAM_STR);
- 		$stmt -> bindParam(":id_inventario" ,  $ultimo_id_inventario, PDO::PARAM_STR);
- 		$stmt -> bindParam(":equivalencia" ,  $equivalencia, PDO::PARAM_STR);
-		
-		$stmt->execute();
-		$ultimo_id_unidad_medida_salida = $conn->lastInsertId();
+			$conn->commit();
+			//echo'<script>console.log("AQUI:'.$lastID.'");</script>';
+			return array("error"=> 0, "data" =>$datos["codproducto"]);
 
+			$stmt->close();
+			$stmt = null; 
 
-//AHORA CREAMOS LA RELACION CON EL PRODUCTO
-	$stmt = $conn->prepare("INSERT INTO unidad_medida_salida_x_producto(cantidad_inventario,id_inventario_unidad_medida_salida,id_producto ) VALUES (:cantidad_inventario,:id_inventario_unidad_medida_salida, :id_producto )");
- 
-
- 		$stmt -> bindParam(":cantidad_inventario" ,  $equivalencia  , PDO::PARAM_STR);
- 		$stmt -> bindParam(":id_inventario_unidad_medida_salida" ,  $ultimo_id_unidad_medida_salida, PDO::PARAM_STR);
- 		$stmt -> bindParam(":id_producto" ,  $ultimo_id_producto, PDO::PARAM_STR);
-		
-		$stmt->execute();
-
-
-
-}
-	
-
- 
-
-		//UNA VEZ QUE INSERTAMOS EL PRODUCTO ,  TERMINAMOS INSERTANDO LAS TRANSACCIONES
-
-		$conn->commit();
- 			//echo'<script>console.log("AQUI:'.$lastID.'");</script>';
- 			return $ultimo_id_producto;
-
-
-		$stmt->close();
-		$stmt = null;
-
- 
-
-}
-catch(Exception $e) {
-    
-    $conn->rollBack();
-    return ($e->getMessage());
-}
+		}
+		catch(Exception $e)
+		{
+			$conn->rollBack();
+			return array("error"=> 1, "data" =>$e->getMessage());
+		}
 
 
  
@@ -366,10 +307,10 @@ catch(Exception $e) {
 
 
 
- 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla  SET estado = 0 WHERE id = :$id");
+ 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE codproducto = :$id");
 
 		
- 		$stmt -> bindParam(":".$id , $id, PDO::PARAM_INT);
+ 		$stmt -> bindParam(":".$id , $id, PDO::PARAM_STR);
  		
  		if( $stmt -> execute()) 
  			return "ok";

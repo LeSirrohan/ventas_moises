@@ -58,9 +58,9 @@ public function nuevaVentaTraerProductoAuxiliar(){
 
 		 
 		$id = $this->idEliminarProducto;
-		$imagen = $this->imagenProducto;
+		//$imagen = $this->imagenProducto;
 		  
-		$respuesta = ControladorProductos::ctrEliminarProducto($id, $imagen);
+		$respuesta = ControladorProductos::ctrEliminarProducto($id);
 		echo json_encode($respuesta);
 
 	}
@@ -139,7 +139,7 @@ if(isset($_POST["idUnidadMedidaProducto"])){
 if(isset($_POST["idEliminarProducto"])){
 	$producto = new AjaxProductos();
 	$producto -> idEliminarProducto = $_POST["idEliminarProducto"];
-	$producto -> imagenProducto = $_POST["imagen"];
+	//$producto -> imagenProducto = $_POST["imagen"];
 	$producto -> ajaxEliminarProducto();
 }  
 

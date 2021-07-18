@@ -7,9 +7,12 @@
 //$um = ControladorInventario::ctrMostrarUnidadMedidaxInventario ( );
 //$local = ControladorLocal::ctrMostrarLocalPorid($_SESSION["id_local"] );
 // echo '<pre class="bg-white">'; print_r($um); echo '</pre>';
-
+if(isset($_POST['crear_producto']))
+{
+  $crearProducto = new ControladorProductos();
+  $crearProducto->ctrCrearProducto();
+}
 ?>
-
 <input type="hidden" name= "crear_productos" id= "crear_productos" value=1>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -95,6 +98,8 @@
     <!-- Modal content-->
     <div class="modal-content">
     <form  autocomplete="off" method="post" enctype="multipart/form-data">
+    
+      <input type="hidden" name="crear_producto" value="1"/>
       <div class="modal-header bg-info">
         <h4 class="modal-title">Agregar Producto</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -106,41 +111,16 @@
 
         <!-- Entrada para seleccionar la categoría del producto-->
 
-
-          <!-- Entrada para seleccionar el codigo-->
-          <div class = "form-group row" style="margin-bottom: 0px">
-            <div class  = "col-xs-12 col-sm-9">
-              <label for="">Código de barras</label>
-              <div class = "input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class = "fas fa-barcode"></i></span>
-                </div>
-                  <input type="text" class="form-control" id="nuevoCodigo" name="nuevoCodigo" placeholder="Código de Barras">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-success input-lg btnGenerarCodBarras">Generar!</button>
-                </span>
-              </div>
-            </div>
-          </div>
-
-                    <!-- Entrada para seleccionar el codigo-->
+          <!-- Entrada para seleccionar la cod-->
           <div class = "form-group">
-            <label for="">Código SUNAT</label>
-            <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class = "fas fa-university"> </i></span>
-                  </div>
-                <input type="number" class="form-control input-lg" min ="0" placeholder="Código Asignado Sunat" name = "nuevoCodigoSunatProducto">
-                <span class="input-group-btn">
-                  <a href="content-download/Sunat.xlsm">
-                    <button type="button" class="btn btn-success input-lg">Códigos!
-                    </button>
-
-                  </a>
-                </span>
+            <label for="">Código del producto</label>
+            <div class = "input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fab fa-product-hunt"> </i></span>
+              </div>
+                <input type="text" class="form-control input-lg"  name= "nuevaCodProducto" placeholder="Código del producto" required>
             </div>
           </div>
-
 
           <!-- Entrada para seleccionar la descripción-->
           <div class = "form-group">
@@ -164,34 +144,42 @@
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Unidad de medida</label>
               <select name="nuevoProductoUnidadSunat" class ="form-control select2" style="width: 100%; height:300px" required>
-                <option selected="selected" value="NIU-unidades" >NIU-unidades</option>
-                <option value="ZZ-otros" >ZZ-otros</option>
-                <option value="KGM-kilogramo" >KGM-kilogramo</option>
-                <option value="BX-caja" >BX-caja</option>
-                <option value="BG-bolsa" >BG-bolsa</option>
-                <option value="DZN-docena" >DZN-docena</option>
-                <option value="WG-galon" >WG-galon</option>
-                <option value="GRM-gramo" >GRM-gramo</option>
-                <option value="MTR-metro" >MTR-metro</option>
-                <option value="PK-paquete" >PK-paquete</option>
-                <option value="BO-botella" >BO-botella</option>
-                <option value="SA-saco" >SA-saco</option>
-                <option value="RO-rollo" >RO-rollo</option>
-                <option value="LTR-litro" >LTR-litro</option>
+                <?php
+                  $um = ControladorUnidadMedida::ctrMostrarUnidadMedida();
+                  //print_r($um);
+                  foreach ($um as $key => $value) {
+
+                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                    if($key == 0 )
+                      echo '<option selected="selected" value="'.$value['codunidad'].'">'.$value['codunidad'].'-'.  strtoupper ($value['nomunidad']).'</option>';
+                    else
+                      echo '<option value="'.$value['codunidad'].'">'.$value['codunidad'].'-'.  strtoupper ($value['nomunidad']).'</option>';
+                  }
+                ?>
               </select>
             </div>
 
 
 
-          <!-- Entrada para ingresar el stock minimo-->
+            <!-- Entrada para ingresar el stock minimo-->
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Tipo de afectación</label>
               <select name="nuevoProductoAfectacion" class ="form-control select2" style="width: 100%; height:300px" required>
-                <option selected="selected" value="Gravado" >Gravado</option>
-                <option value="Inafecto" >Exonerado</option>
-                <option value="Inafecto" >Inafecto</option>
-                <option value="Impuesto Bolsas" >Impuesto Bolsas</option>
-                </select>
+                <?php
+                  $tipo_afectacion = ControladorTipoAfectacion::ctrMostrarTipoAfectacion();
+                  //print_r($tipo_afectacion);
+                  foreach ($tipo_afectacion as $key => $value) {
+
+                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                    if($key == 0 )
+                      echo '<option selected="selected" value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
+                    else
+                      echo '<option value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
+                  }
+                ?>
+              </select>
             </div>
 
 
@@ -217,9 +205,8 @@
           </div>
 
 
-         <div class = "form-group row col-lg-12" style="width:100%">
+         <!--<div class = "form-group row col-lg-12" style="width:100%">
            <div id="accordion">
-             <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
              <div class="card col-lg-12 p-0" style="width:100%">
                <div class="card-header" style="width:100%">
                  <h4 class="card-title">
@@ -235,7 +222,6 @@
 
                      <div class  = "col-xs-12 col-sm-6">
                        <label for="">Costo Referencial</label>
-                        <!-- Entrada para el precio de venta-->
                        <div class = "input-group mb-3">
                          <div class="input-group-prepend">
                            <span class="input-group-text"><i class = "fas fa-arrow-circle-up"> </i></span>
@@ -244,7 +230,6 @@
                        </div>
                      </div>
 
-                   <!-- Entrada para ingresar el stock minimo-->
                      <div class  = "col-xs-12 col-sm-6">
                        <label for="">Cantidad de Alerta</label>
                          <div class = "input-group mb-3">
@@ -260,7 +245,7 @@
                </div>
              </div>
            </div>
-          </div>
+          </div>-->
 
 
 
@@ -268,7 +253,7 @@
                     <!-- Entrada para ingresar el stock-->
 
           <!-- Entrada para la imagen del producto-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <div class="form-group my-2">
               <div class="btn btn-default btn-file">
                   <i class="fas fa-paperclip"></i> Adjuntar Foto del Producto
@@ -280,10 +265,11 @@
 
                <p class="help-block small">Dimensiones: 300px * 300px | Peso Max. 2MB | Formato: JPG o PNG</p>
             </div>
-          </div>
+          </div>-->
           <!-- Finaliza - Entrada para la imagen del producto-->
 
-          <input type="hidden" id="id_local" value="<?= $id_local ?>"/>
+          <input type="hidden" id="id_local" value="1"/>
+          <input type="hidden" name="crear_producto" value="1"/>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
@@ -294,10 +280,6 @@
 
 
 
-<?php
-  $crearProducto = new ControladorProductos();
-  $crearProducto->ctrCrearProducto();
-?>
 
     </div>
 
@@ -315,53 +297,20 @@
     <div class="modal-content">
     <form  autocomplete="off" method="post" enctype="multipart/form-data">
       <div class="modal-header bg-info">
-        <h4 class="modal-title">Agregar Producto</h4>
+        <h4 class="modal-title">Editar Producto</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-
-
-        <!-- Entrada para seleccionar la categoría del producto-->
+          <!-- Entrada para seleccionar la cod-->
           <div class = "form-group">
-             <select name="editarProductoCategoria" id="editarProductoCategoria" class ="form-control select2" style="width: 100%;" required>
-
-             </select>
-          </div>
-
-
-          <!-- Entrada para seleccionar el codigo DE BARRAS-->
-          <div class = "form-group row" style="margin-bottom: 0px">
-            <div class  = "col-xs-12 col-sm-8">
-              <label for="">Código de barras</label>
-              <div class = "input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class = "fas fa-barcode"></i></span>
-                </div>
-                  <input type="text" class="form-control"  id="editarCodigoBarras"   name= "editarCodigoBarras" placeholder="Código de Barras">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-success input-lg editGenerarCodBarras">Generar!</button>
-                </span>
+            <label for="">Código del producto</label>
+            <div class = "input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fab fa-product-hunt"> </i></span>
               </div>
-            </div>
-          </div>
-
-                    <!-- Entrada para seleccionar el codigo SUNAT-->
-          <div class = "form-group">
-            <label for="">Código SUNAT</label>
-            <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class = "fas fa-university"> </i></span>
-                  </div>
-                <input type="text" class="form-control input-lg"  id="editarCodigoSunat" placeholder="Código Asignado Sunat" name = "editarCodigoSunatProducto">
-                <span class="input-group-btn">
-                  <a href="content-download/Sunat.xlsm">
-                    <button type="button" class="btn btn-success input-lg">Códigos!
-                    </button>
-
-                  </a>
-                </span>
+                <input type="text" class="form-control input-lg"  name= "editarCodProducto" id="editarCodProducto" placeholder="Código del producto" required>
             </div>
           </div>
 
@@ -378,45 +327,49 @@
             </div>
           </div>
 
-          <!-- Entrada para ingresar el stock-->
-          <div class = "form-group row" style="margin-bottom: 0px">
 
-
-          </div>
 
           <!-- Entrada para ingresar el stock-->
           <div class = "form-group row">
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Unidad de medida</label>
-              <select name="editarProductoUnidadSunat" class ="form-control select2" style="width: 100%; height:300px" required>
-                <option selected="selected" value="NIU-unidades" >NIU-unidades</option>
-                <option value="ZZ-otros" >ZZ-otros</option>
-                <option value="KGM-kilogramo" >KGM-kilogramo</option>
-                <option value="BX-caja" >BX-caja</option>
-                <option value="BG-bolsa" >BG-bolsa</option>
-                <option value="DZN-docena" >DZN-docena</option>
-                <option value="WG-galon" >WG-galon</option>
-                <option value="GRM-gramo" >GRM-gramo</option>
-                <option value="MTR-metro" >MTR-metro</option>
-                <option value="PK-paquete" >PK-paquete</option>
-                <option value="BO-botella" >BO-botella</option>
-                <option value="SA-saco" >SA-saco</option>
-                <option value="RO-rollo" >RO-rollo</option>
-                <option value="LTR-litro" >LTR-litro</option>
+              <select name="nuevoProductoUnidadSunat" class ="form-control select2" style="width: 100%; height:300px" required>
+                <?php
+                  $um = ControladorUnidadMedida::ctrMostrarUnidadMedida();
+                  //print_r($um);
+                  foreach ($um as $key => $value) {
+
+                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                    if($key == 0 )
+                      echo '<option selected="selected" value="'.$value['codunidad'].'">'.$value['codunidad'].'-'.  strtoupper ($value['nomunidad']).'</option>';
+                    else
+                      echo '<option value="'.$value['codunidad'].'">'.$value['codunidad'].'-'.  strtoupper ($value['nomunidad']).'</option>';
+                  }
+                ?>
               </select>
             </div>
 
 
 
-          <!-- Entrada para ingresar el stock minimo-->
+            <!-- Entrada para ingresar el stock minimo-->
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Tipo de afectación</label>
-              <select name="editarProductoAfectacion" class ="form-control select2" style="width: 100%; height:300px" required>
-                <option selected="selected" value="Gravado" >Gravado</option>
-                <option value="Exonerado" >Exonerado</option>
-                <option value="Inafecto" >Inafecto</option>
-                <option value="Impuesto Bolsas" >Impuesto Bolsas</option>
-                </select>
+              <select name="nuevoProductoAfectacion" class ="form-control select2" style="width: 100%; height:300px" required>
+                <?php
+                  $tipo_afectacion = ControladorTipoAfectacion::ctrMostrarTipoAfectacion();
+                  //print_r($tipo_afectacion);
+                  foreach ($tipo_afectacion as $key => $value) {
+
+                    //if( $value['efectivo'] == 1 )  $value['efectivo'] = 'E'; else  $value['efectivo'] = 'O';
+
+                    if($key == 0 )
+                      echo '<option selected="selected" value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
+                    else
+                      echo '<option value="'.$value['codtipoafectacion'].'">'.  strtoupper ($value['nomtipoafectacion']).'</option>';
+                  }
+                ?>
+              </select>
             </div>
 
 
@@ -424,11 +377,14 @@
 
           </div>
 
+
+
+
           <!-- Entrada para el precio compra-->
           <div class = "form-group row">
 
 
-          <!-- Entrada para el precio de venta-->
+            <!-- Entrada para el precio de venta-->
             <div class  = "col-xs-12 col-sm-6">
               <label for="">Precio de venta</label>
               <div class = "input-group mb-3">
@@ -437,7 +393,7 @@
                 </div>
                 <input type="number" class="form-control input-lg"  name= "editarPrecioVenta" step = "any"  min ="0" placeholder="Precio de venta" required>
               </div>
-          </div>
+            </div>
 
           </div>
 
@@ -449,7 +405,7 @@
 
 
           <!-- Entrada para la imagen del producto-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <div class="form-group my-2">
               <div class="btn btn-default btn-file">
                   <i class="fas fa-paperclip"></i> Adjuntar Foto del Producto
@@ -462,15 +418,16 @@
 
                <p class="help-block small">Dimensiones: 300px * 300px | Peso Max. 2MB | Formato: JPG o PNG</p>
             </div>
-          </div>
+          </div>-->
           <!-- Finaliza - Entrada para la imagen del producto-->
 
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
           <button type="submit" class="btn btn-primary" >Guardar</button>
-        </div>
-        </form>
+      </div>
+      </form>
+      </div>
       </div>
 
 

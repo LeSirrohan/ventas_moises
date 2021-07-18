@@ -5,7 +5,7 @@ class ControladorTipoPago {
 
 static public function ctrMostrarTipoPago(){
 
-		$tabla = "tipopago";
+		$tabla = "tipo_cobro";
 
 		$respuesta = ModeloTipoPago::mdlMostrarTipoPago($tabla );
 
@@ -14,7 +14,7 @@ static public function ctrMostrarTipoPago(){
 }
 static public function ctrListaTipoPago(){
 
-		$tabla = "tipopago";
+		$tabla = "tipo_cobro";
 
 		$respuesta = ModeloTipoPago::mdlListaTipoPago($tabla );
 
@@ -28,22 +28,22 @@ static public function ctrConvertirDataYMD($fecha){
 
 }
 static public function ctrValidarEfectivo(){
-	$tabla = "tipopago";
+	$tabla = "tipo_cobro";
 	$response = ModeloTipoPago::mdlValidarEfectivo($tabla);
 	$ixx = 0;
 	return $response[$ixx];
 }
 
-static public function ctrTipoPagoById($tipopago){
-	$tabla = "tipopago";
-	$response = ModeloTipoPago::mdlTipoPagoById($tipopago);
+static public function ctrTipoPagoById($tipo_cobro){
+	$tabla = "tipo_cobro";
+	$response = ModeloTipoPago::mdlTipoPagoById($tipo_cobro);
 	$ixx = 0;
 	return $response[$ixx];
 }
 
 static public function ctrMostrarTipoPagoTabla(){
 
-	$tabla = "tipopago";
+	$tabla = "tipo_cobro";
 
 	$respuesta = ModeloTipoPago::mdlMostrarTipoPagoTabla($tabla );
 
@@ -53,7 +53,7 @@ static public function ctrMostrarTipoPagoTabla(){
 
 static public function ctrMostrarTipoPagoEfectivo(){
 
-		$tabla = "tipopago";
+		$tabla = "tipo_cobro";
 
 		$respuesta = ModeloTipoPago::mdlMostrarTipoPagoEfectivo($tabla );
 
@@ -62,14 +62,14 @@ static public function ctrMostrarTipoPagoEfectivo(){
 
 
 }
-static public function ctrAgregarTipoPago($tipopago)
+static public function ctrAgregarTipoPago($tipo_cobro)
 {
-	$tabla = "tipopago";
-	if($tipopago->tipo_pago == 1){
+	$tabla = "tipo_cobro";
+	if($tipo_cobro->tipo_pago == 1){
 		$validar =  ControladorTipoPago::ctrValidarEfectivo();
 		if($validar["efectivo"]<1)
 		{
-			return ModeloTipoPago::mdlAgregarTipoPago( $tabla , $tipopago );
+			return ModeloTipoPago::mdlAgregarTipoPago( $tabla , $tipo_cobro );
 		}
 		else
 		{
@@ -78,21 +78,21 @@ static public function ctrAgregarTipoPago($tipopago)
 		}
 	}
 	else{		
-		return ModeloTipoPago::mdlAgregarTipoPago( $tabla , $tipopago );
+		return ModeloTipoPago::mdlAgregarTipoPago( $tabla , $tipo_cobro );
 	}
 
 }
 
-static public function ctrEditarTipoPago($tipopago)
+static public function ctrEditarTipoPago($tipo_cobro)
 {
-	$tabla = "tipopago";
-	if($tipopago->tipo_pago == 1){
+	$tabla = "tipo_cobro";
+	if($tipo_cobro->tipo_pago == 1){
 		$id = "";
-		$id = $tipopago->idTipoPago;
-		$validar =  ControladorTipoPago::ctrTipoPagoById( $tipopago );
-		if($validar["efectivo"]==1 AND $tipopago->tipo_pago == 1)
+		$id = $tipo_cobro->idTipoPago;
+		$validar =  ControladorTipoPago::ctrTipoPagoById( $tipo_cobro );
+		if($validar["efectivo"]==1 AND $tipo_cobro->tipo_pago == 1)
 		{
-			if( ($validar["nombre"] != $tipopago->nombre) || ($validar["simbolo"] != $tipopago->simbolo) || ($validar["orden"] != $tipopago->orden) )
+			if( ($validar["nombre"] != $tipo_cobro->nombre) || ($validar["simbolo"] != $tipo_cobro->simbolo) || ($validar["orden"] != $tipo_cobro->orden) )
 			{
 				$valido = 1;
 			}
@@ -105,7 +105,7 @@ static public function ctrEditarTipoPago($tipopago)
 		}
 		if($valido)
 		{
-			return ModeloTipoPago::mdlEditarTipoPago( $tabla , $tipopago );
+			return ModeloTipoPago::mdlEditarTipoPago( $tabla , $tipo_cobro );
 		}
 		else
 		{
@@ -114,14 +114,14 @@ static public function ctrEditarTipoPago($tipopago)
 		}
 	}
 	else{		
-		return ModeloTipoPago::mdlEditarTipoPago( $tabla , $tipopago );
+		return ModeloTipoPago::mdlEditarTipoPago( $tabla , $tipo_cobro );
 	}	
 
 }
-static public function ctrEliminarTipoPago($tipopago)
+static public function ctrEliminarTipoPago($tipo_cobro)
 {
-	$tabla = "tipopago";		
-	return ModeloTipoPago::mdlEliminarTipoPago( $tabla , $tipopago );
+	$tabla = "tipo_cobro";		
+	return ModeloTipoPago::mdlEliminarTipoPago( $tabla , $tipo_cobro );
 
 }
 

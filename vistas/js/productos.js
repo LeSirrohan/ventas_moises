@@ -182,8 +182,9 @@ $("#cargarImagenProductoEdicion").change(function(){
  
 
 $(document).on("click",".btnEditarProducto" , function(){
- 
-var idProducto = $(this).attr("idProducto");
+	codproducto
+	var idProducto = $(this).attr("idProducto");
+	var codproducto = $(this).attr("codproducto");
 var descripcionEditarProducto = $(this).attr("descripcionEditarProducto");
 var codigoEditarProducto = $(this).attr("codigoEditarProducto");
 var precVentaEditarProducto = $(this).attr("precVentaEditarProducto");
@@ -218,8 +219,8 @@ $("#editarCodigoBarras").val(codigoEditarProducto);
 $("#editarCodigoSunat").val(codigo_producto_sunat);
 
 $("#editarDescripcion").val(descripcionEditarProducto);
+$("#editarCodProducto").val(codproducto);
 
- 
 $('[name=editarProductoUnidadSunat]').select2();
 $('[name=editarProductoUnidadSunat]').val(unidad_medida_sunat).trigger("change");
  
@@ -296,38 +297,31 @@ $(document).on("click",".btnEliminarUnidadMedidaProducto" , function(){
 $(document).on("click",".btnEliminarProducto" , function(){
  
 	var idProducto = $(this).attr("idProducto");
-	var imagen = $(this).attr("imagen");
 
-		console.log(idProducto);
-		console.log(imagen);
-
-
-
-	 		swal({
-		      title: "¿Está seguro que desea eliminar el producto?",
-		      text: "¡Si no lo está puede cancelar está acción!",
-		      type: "warning",
-		      showCancelButton: true,
-		      confirmButtonColor: "#3085d6",
-		      cancelButtonColor: "#d33",
-		      cancelButtonText: "Cancelar",
-		      confirmButtonText: "Si, borrar el producto!"
+		swal({
+			title: "¿Está seguro que desea eliminar el producto?",
+			text: "¡Si no lo está puede cancelar está acción!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			cancelButtonText: "Cancelar",
+			confirmButtonText: "Si, borrar el producto!"
 		}).then(function(result){
 			if(result.value){
-						var datos = new FormData();
-						datos.append("idEliminarProducto",idProducto);
-						datos.append("imagen",imagen);
-						$.ajax({
-							url : "ajax/productos.ajax.php",
-							method: "POST",
-							data : datos,
-							cache: false,
-							contentType : false,
-							processData : false ,
-							success: function(respuesta){
-								window.location ='productos'; 
-							}
-						});	
+				var datos = new FormData();
+				datos.append("idEliminarProducto",idProducto);
+				$.ajax({
+					url : "ajax/productos.ajax.php",
+					method: "POST",
+					data : datos,
+					cache: false,
+					contentType : false,
+					processData : false ,
+					success: function(respuesta){
+						window.location ='productos'; 
+					}
+				});	
 			}
 		});
 

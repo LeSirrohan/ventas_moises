@@ -1,11 +1,11 @@
 <?php
 class ControladorProductos{
 
-static public function ctrMostrarProductos( $item , $valor){
-	$tabla = "producto";
-	$respuesta = ModeloProductos::MdlMostrarProductos($tabla, $item , $valor );
-	return $respuesta;
-}//
+	static public function ctrMostrarProductos( $item , $valor){
+		$tabla = "producto";
+		$respuesta = ModeloProductos::MdlMostrarProductos($tabla, $item , $valor );
+		return $respuesta;
+	}//
 
 	static public function ctrReporteProductos(  )
 	{
@@ -20,140 +20,38 @@ static public function ctrMostrarProductos( $item , $valor){
 		return ModeloProductos::mdlChequearCodigo( $obj );
 	}
 
-static public function ctrCrearProducto(){
+	static public function ctrCrearProducto(){
 
 
-	if(isset($_POST["nuevoProductoCategoria"] )){
+		if(isset($_POST["crear_producto"] )){
 		
 
-		//PRIMERO VALIDAMOS SI LA IMAGEN HA SIDO CARGADA
 
-			/*=============================================
-						Validamos la imagen.
-			=============================================*/
-				if (isset($_FILES["cargarImagenProductoCreacion"]["tmp_name"] )  && !empty($_FILES["cargarImagenProductoCreacion"]["tmp_name"]) )
-				{
-					list($ancho, $alto) = getimagesize($_FILES["cargarImagenProductoCreacion"]["tmp_name"]);
-					$nuevoAncho = 300;
-					$nuevoAlto = 300;
-
-					$nombre = date("YmdHis");
-					$directorio = "vistas/img/productos";
-					//NO CREAMOS NADA
-					//mkdir($directorio, 0755); // permisos de lectura y escritura.
-
-			/*=============================================
-				De acuerdo al tipo de imagen trabajamos
-			=============================================*/
-
-					if($_FILES["cargarImagenProductoCreacion"]["type"] == "image/jpeg"){
-						
-						$ruta =  $directorio."/".$nombre.".jpg";
-						$origen  = imagecreatefromjpeg($_FILES["cargarImagenProductoCreacion"]["tmp_name"]);
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-						imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-						imagejpeg($destino,$ruta );
-
-					}
-
-					else if($_FILES["cargarImagenProductoCreacion"]["type"] == "image/png"){
-						$aleatorio =$fecha;
-						$ruta =  $directorio."/".$nombre.".png";
-						$origen  = imagecreatefrompng($_FILES["cargarImagenProductoCreacion"]["tmp_name"]);
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-
-
-						//$newImg = imagecreatetruecolor($newWidth, $newHeight);
-					    imagealphablending($destino, false);
-					    imagesavealpha($destino, true);
-					    $transparent = imagecolorallocatealpha($destino, 255, 255, 255, 127);
-					    imagefilledrectangle($destino, 0, 0, $nuevoAncho, $nuevoAlto, $transparent);
-					    //$src_w = imagesx($image);
-					    //$src_h = imagesy($image);
-					    imagecopyresampled($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);		
-
-						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-						imagepng($destino,$ruta );
-						
-					}
-
-
-
-				} //SI LA IMAGEN NO HA SIDO CARGADA INGRESAMOS LA IMAGEN POR DEFECTO :)
-				else  $ruta = "vistas/img/plantilla/product-anonymous.png";
- 
-
-
-
-	date_default_timezone_set('America/Bogota');
+			date_default_timezone_set('America/Bogota');
 			$fecha = date('Y-m-d');
 			$hora = date('H:i:s');
 			$fecha = $fecha.' '.$hora;
 
 
-	//	echo'<script>console.log("aqui es: '.$_POST["cantidadActual"].'");</script>';
-		$crearParejaInventario =0;  
-		$costoIdeal =0;
-		$cantidad_alerta =0;
-	//	$cantidadActual = 0 ;
-	//	$costoValorizado = 0 ;
-
-
-		if(isset($_POST["crearParejaInventario"])) 
-		{		
-					$crearParejaInventario =1    ;
-
-					if(empty($_POST["costoIdeal"])) $costoIdeal  = 0 ;
-					else  $costoIdeal  =  $_POST["costoIdeal"];
-
-					if(empty($_POST["crearStockMinimo"])) $cantidad_alerta  = 0 ;
-					else $cantidad_alerta  =  $_POST["crearStockMinimo"];
-					
-					$existe_almacen = ModeloAlmacen::mdlGetAlmacenById( $_SESSION["id_local"] );
-					if(!$existe_almacen)
-					{
-						$tabla = "almacen";
-						$datos = array (
-							"nombre"   => "BODEGA PRINCIPAL",
-							"id_local" => $_SESSION["id_local"]
-						);
-						$respuesta = ModeloAlmacen::mdlIngresarAlmacen($tabla,$datos);
-						if($respuesta == "ok")
-						{
-							$existe_almacen = ModeloAlmacen::mdlGetAlmacenById( $_SESSION["id_local"] );
-							$id_almacen = $existe_almacen[0]['id'];
-						}
-					}
-					else
-					{
-						$id_almacen = $existe_almacen[0]['id'];
-					}
-
-					//Buscar si existe asociado el inventario al almacén
-
-				//	if(empty($_POST["cantidadActual"])) $cantidadActual  = 0 ;
-			//		else $cantidadActual  =  $_POST["cantidadActual"];
-					
-			//		if(empty($_POST["costoValorizado"])) $costoValorizado  = 0 ;
-			//		else $costoValorizado  =  $_POST["costoValorizado"];		
-
-		}
+		//	echo'<script>console.log("aqui es: '.$_POST["cantidadActual"].'");</script>';
+			$crearParejaInventario =0;  
+			$costoIdeal =0;
+			$cantidad_alerta =0;
+		//	$cantidadActual = 0 ;
+		//	$costoValorizado = 0 ;
 			
- 			$datos = array ("id_categoria" => $_POST["nuevoProductoCategoria"],
- 							"codigo_barras" => $_POST["nuevoCodigo"],
- 							"descripcion" => bd::sanear_strings_especiales( $_POST["nuevaDescripcion"]),
- 							"unidad_medida_sunat" => $_POST["nuevoProductoUnidadSunat"],
- 							"precio_venta" => $_POST["precioVenta"],
-							"tipo_afectacion_sunat" => $_POST["nuevoProductoAfectacion"], 			 
-							"codigo_producto_sunat" => $_POST["nuevoCodigoSunatProducto"],
-							"id_almacen" => $id_almacen,
- 							"imagen" => $ruta);
+ 			$datos = array (
+				"codproducto" => bd::sanear_strings_especiales( $_POST["nuevaCodProducto"]),
+				"descripcion" => bd::sanear_strings_especiales( $_POST["nuevaDescripcion"]),
+				"unidad_medida_sunat" => $_POST["nuevoProductoUnidadSunat"],
+				"precio_venta" => $_POST["precioVenta"],
+				"tipo_afectacion_sunat" => $_POST["nuevoProductoAfectacion"], 			 
+				"moneda" => 'PEN');
 
 			$idProductoInsertado = ModeloProductos::mdlIngresarProductos($datos, $crearParejaInventario ,$costoIdeal , 	$cantidad_alerta , $fecha );
  
-//echo'<script>console.log("aqui es: '. $idProductoInsertado .'");</script>';
-			if(is_numeric($idProductoInsertado)){
+		//echo'<script>console.log("aqui es: '. $idProductoInsertado .'");</script>';
+			if($idProductoInsertado["error"] == 0){
 
 		 		echo '<script>
 					swal({
@@ -173,7 +71,7 @@ static public function ctrCrearProducto(){
 					echo '<script>
 					swal({
 						type: "error",
-						title: "'.$idProductoInsertado. '",
+						title: "'.$idProductoInsertado["data"]. '",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 					}).then(function(result){
@@ -383,12 +281,10 @@ static public function ctrEditarProducto(){
 */
 
 
-	static public function ctrEliminarProducto($id, $imagen){
+	static public function ctrEliminarProducto($id){
 
-		if (strpos($imagen, 'anonymous') === FALSE) //SI NO CONTIENE ELIMINAMOS
-			unlink("../".$imagen);
 	
-		$tabla = "producto";
+		$tabla = "productos";
 
 		$respuesta = ModeloProductos::mdlEliminarProducto($tabla, $id);
 
