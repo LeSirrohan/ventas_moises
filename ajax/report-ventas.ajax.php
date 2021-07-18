@@ -40,19 +40,15 @@ class AjaxListadoVentas {
 		$datosJson = '[';
 
  			for($i = 0; $i < count($ventas); $i++){
-				$precio_venta_producto = number_format($ventas[$i]['precio_venta_producto'],2,".",",");
-				$precio_venta_producto_original = number_format($ventas[$i]['precio_venta_original'],2,".",",");
-				$subtotal = $precio_venta_producto * $ventas[$i]["cantidad_producto"] ;
+				$precio_venta_producto = number_format($ventas[$i]['precio'],2,".",",");
+				$precio_venta_producto_original = number_format($ventas[$i]['valorunitario'],2,".",",");
+				$subtotal = $precio_venta_producto * $ventas[$i]["cantidad"] ;
 				$subtotal = number_format($subtotal,2,".",",");
 				$comentario = "";
-				if($ventas[$i]["comentario_modificacion_precio"] != "no hay motivo modificacion precio")
-				{
-					$comentario = $ventas[$i]["comentario_modificacion_precio"];
-				}
  				$datosJson .='[
-					"'.($i+1).'",
-			      "'.$ventas[$i]["cantidad_producto"].'",
-			      "'.$ventas[$i]["comprobante_unidad_medida"].'",
+				"'.$ventas[$i]["codventa"].'",
+				"'.$ventas[$i]["cantidad"].'",
+			      "'.$ventas[$i]["unidad_medida"].'",
 			      "'.$ventas[$i]["nombre_producto"].'",
 			      "'.$precio_venta_producto.'",
 			      "'.$precio_venta_producto_original.'",
@@ -100,7 +96,7 @@ class AjaxListadoVentas {
 
                       "<button class='btn btn-warning btnVerDetalle' idVenta='".$ventas[$i]['codventa']."'><i class='fas fa-eye'></i></button>".
 
-                      "<button class='btn btn-danger btnVerComprobante' idVenta='".$ventas[$i]['codventa']."'><i class='fas fa-print'></i></button>".
+                      //"<button class='btn btn-danger btnVerComprobante' idVenta='".$ventas[$i]['codventa']."'><i class='fas fa-print'></i></button>".
 
 					"</div>";
 				$boton_descuento = "";
@@ -108,8 +104,8 @@ class AjaxListadoVentas {
 				$total = number_format($ventas[$i]['total'],2,".",",");
 
  				$datosJson .='[
-			      "'.($i+1).'",
-			      "'.$ventas[$i]["fecemision"].'",
+				"'.$ventas[$i]["codventa"].'",
+				"'.$ventas[$i]["fecemision"].'",
 			      "'.$ventas[$i]["tip_doc"].'",
 			      "'.$ventas[$i]["id_cliente"].'",
 			      "'.$ventas[$i]["cliente"].'",

@@ -181,7 +181,7 @@ ORDER BY ventas.id DESC
 			$WHERE .=" WHERE cast(v.fecemision as date) BETWEEN :fecha1 AND :fecha2  ";
 		}
 		$GROUP .= "";
-		$ORDER .= " ORDER BY v.codventa DESC ";
+		$ORDER .= " ORDER BY v.codventa ASC ";
 		$sql = "";
 		$sql .= $SELECT;
 		$sql .= $FROM ;
@@ -222,20 +222,24 @@ static public function mdlListadoVentasDetalle($obj ){
 	$ORDER = "";
 
 	$SELECT .= " SELECT
-					ventas_detalle.*
+					ventas.codventa,
+					detalle.*,
+					productos.codunidad unidad_medida,
+					productos.nomproducto as nombre_producto,
+					productos.precio
 				FROM
 					ventas
-					INNER JOIN ventas_detalle ON ventas.id = ventas_detalle.id_ventas";
-	$WHERE .=" WHERE ventas.id=:id_venta  AND ventas_detalle.estado <> '2'";
+					INNER JOIN detalle ON ventas.codventa = detalle.codventa
+					INNER JOIN productos ON productos.codproducto = detalle.codproducto ";
+	$WHERE .=" WHERE ventas.codventa=:id_venta ";
 	$GROUP .= "";
-	$ORDER .= " ORDER BY ventas.id DESC ";
+	$ORDER .= " ORDER BY ventas.codventa DESC ";
 	$sql = "";
 	$sql .= $SELECT;
 	$sql .= $FROM ;
 	$sql .= $WHERE;
 	$sql .= $GROUP;
 	$sql .= $ORDER;
-
 	$stmt = Conexion::conectar()->prepare(" $sql ");
 	$stmt -> bindParam(":id_venta", $obj->id_venta, PDO::PARAM_STR);
 	

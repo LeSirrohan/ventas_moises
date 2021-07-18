@@ -581,7 +581,7 @@ for(let i = 0 ; i < tipoCobros.length ; i++)
     let listaCobros_par =   $('[name=nuevaVentaFormaCobro]').val();
     let id_venta =   $('[name=actualizacionVentaID]').val();
     let vuelto_par =   $('[name=nuevaVentaVuelto]').val();
-    let id_sesion_caja_par = <?php echo $id_sesion_caja   ?> ;
+    let id_sesion_caja_par =1 ;
 
     var datos = new FormData();
 

@@ -63,7 +63,7 @@
 				"data": respuesta,
 				"deferRender": true,
 				"retrieve":true,
-				"order": [[ 1, "desc" ]], //ESTO ES PARA ORDENAR DESCENDEMENTE DE ULTIMO A MÁS NUEVO
+				"order": [[ 0, "asc" ]], //ESTO ES PARA ORDENAR DESCENDEMENTE DE ULTIMO A MÁS NUEVO
 				"processing":true,
 				"language": {
 						"lengthMenu": "Mostrar _MENU_ registros",
